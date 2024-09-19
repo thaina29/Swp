@@ -1,0 +1,39 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Sep 7, 2024, 1:12:17 PM
+    Author     : Legion
+*/
+
+/* Custom styles for the homepage */
+.hero {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+}
+
+.categories .card {
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.categories .card:hover {
+    transform: scale(1.05);
+}
+
+.testimonials .testimonial p {
+    font-size: 1.25rem;
+}
+
+.cta {
+    background: linear-gradient(135deg, #0056b3 0%, #007bff 100%);
+}
+
+footer {
+    background-color: #343a40;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

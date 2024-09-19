@@ -1,0 +1,40 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 20, 2024, 4:23:27 PM
+    Author     : Legion
+*/
+
+.vh-94{
+    height: 94vh;
+}
+
+.vh-6 {
+    height: 6vh;
+}
+.mr-10 {
+    margin-right: 10px;
+}
+
+.text-decoration-none {
+    text-decoration:  none;
+}
+
+.color-gray {
+    color: rgb(92, 91, 91);
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.active {
+background-color: rgb(235, 234, 234);
+}
+
+.error {
+    color: red;
+    display: none;
+}

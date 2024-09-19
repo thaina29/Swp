@@ -1,0 +1,122 @@
+
+
+.category_block li:hover {
+    background-color: #343a40;
+    transform: scale(1.2);
+    border-radius: 5px;
+}
+
+.category_block li:hover a {
+    color: #ffffff ;
+}
+
+.category_block li a {
+    color: #343a40 ;
+    transition: transform 0.3s;
+}
+
+a .active {
+    color: white ;
+}
+footer {
+    background-color: #343a40;
+    padding: 40px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+footer a {
+    color: #f8f9fa!important
+}
+.carousel-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+.container {
+    margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Hiển thị sản phẩm trong thẻ card */
+.cardp {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 0.5em;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+    flex: 1; /* Mỗi thẻ card sẽ chiếm một phần bằng nhau trong flex container */
+    min-height: 450px;
+    max-width: 300px; /* Kích thước tối đa của mỗi thẻ card */
+}
+
+.cardp:hover {
+    transform: scale(1.05);
+}
+
+.cardp img {
+    width: 100%;
+    height: auto;
+}
+
+
+.cardp-title {
+    font-size: 1em;
+    margin-bottom: 0.25em;
+    color: #333;
+}
+
+.cardp-text {
+    color: #555;
+    font-size: 1em;
+}
+
+/* Giá và giảm giá */
+.cardp-text.show_txt {
+    margin-bottom: 0.5em;
+}
+
+.colP {
+    display: flex;
+    align-items: center;
+}
+.colPN {
+    align-items: center;
+}
+
+/* Nút thêm vào giỏ hàng */
+.btn-dark {
+    background-color: #343a40;
+    padding: 0.3em 0.6em;
+    font-size: 1em;
+    display: block; /* Để có thể sử dụng margin: auto; */
+    margin: auto; /* Căn giữa theo chiều ngang */
+
+}
+#carouselExample {
+    width: 800px; /* Điều chỉnh độ rộng của slider */
+    height: 400px; /* Điều chỉnh chiều cao của slider */
+    margin: auto; /* Căn giữa slider */
+}
+
+#carouselExample .carousel-inner .carousel-item img {
+    max-width: 100%; /* Đảm bảo hình ảnh trong slider không vượt quá chiều rộng của slider */
+    max-height: 100%; /* Đảm bảo hình ảnh trong slider không vượt quá chiều cao của slider */
+}
+
+.btn-mo{
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+
+

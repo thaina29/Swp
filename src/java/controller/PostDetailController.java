@@ -6,7 +6,7 @@
 package controller;
 
 import DAO.PostDAO;
-import Model.User;
+import Model.Post;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Legion
  */
-@WebServlet(name="AddPostController", urlPatterns={"/marketing/add-post"})
-public class AddPostController extends HttpServlet {
+@WebServlet(name="PostDetailController", urlPatterns={"/marketing/post-detail"})
+public class PostDetailController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class AddPostController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddPostController</title>");  
+            out.println("<title>Servlet PostDetailController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddPostController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet PostDetailController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,8 +57,39 @@ public class AddPostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-            
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        String postIdStr = request.getParameter("id");
+        if (postIdStr == null || postIdStr.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        int postId = Integer.parseInt(postIdStr);
+        Post post = new PostDAO().getPostById(postId);
+
+
+        if (post == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        // Convert post object to JSON
+        String jsonPost = "[{\"id\":" + post.getId()+ ","
+                + "\"categoryId\":\"" + post.getCategoryId()+ "\","
+                + "\"title\":\"" + post.getTitle()+ "\","
+                + "\"content\":\"" + post.getContent().replace("\"", "\\\"") + "\","
+                + "\"isDeleted\":\"" + post.isIsDeleted() + "\","
+                + "\"createdAt\":\"" + post.getCreatedAt() + "\","
+                + "\"imgURL\":\"" + post.getImgURL()+ "\","
+                + "\"createdBy\":\"" + post.getAuthorName()+ "\""
+                + "}]";
+
+        PrintWriter out = response.getWriter();
+        out.print(jsonPost);
+        out.flush();
+
     } 
 
     /** 
@@ -71,16 +102,7 @@ public class AddPostController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        // Get the form data
-        String title = request.getParameter("title");
-        String content = request.getParameter("content");
-        String category = request.getParameter("category");
-        String imgURL = request.getParameter("imgURL");
-        // Assuming you have a way to get the current user ID
-        //int createdBy = ((User) request.getSession().getAttribute("user")).getId();
-        int createdBy = 1; //need delete
-        boolean isSuccess = new PostDAO().createPost(title, content, category, createdBy, imgURL);
-        response.sendRedirect("list-post?isSuccess=" + isSuccess);
+        processRequest(request, response);
     }
 
     /** 

@@ -77,17 +77,15 @@ public class RegisterControl extends HttpServlet {
             throws ServletException, IOException {
 
         // Retrieve parameters from the request
-//        String username = request.getParameter("username");
+
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String retypePassword = request.getParameter("retypePassword");
-        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
-        String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
+        
 
         // Perform additional validation checks
-        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, phone, address);
+        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, "", "");
 
         if (validationError != null) {
             // Validation failed
@@ -113,9 +111,7 @@ public class RegisterControl extends HttpServlet {
                 return;
             }
 
-            // Email is not registered, and passwords match, proceed with registration
-//            boolean registrationSuccessful = userDAO.registerUser(fullName, email, password, role);
-            // Verify OTP
+
             String otp = generateRandomSixDigit() + "";
             String verifyLink = "http://" + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath() + "/verify?otp=" + otp + "&email=" + email;
@@ -129,9 +125,9 @@ public class RegisterControl extends HttpServlet {
             user.setEmail(email);
             user.setPassword(password);
             user.setFullname(fullName);
-            user.setGender(gender ? "Male" : "Female");
-            user.setAddress(address);
-            user.setPhone(phone);
+            user.setGender("Female");
+            user.setAddress("");
+            user.setPhone("");
             user.setIsDeleted(false);
             
             request.getSession().setAttribute("verify_" + email, user);
@@ -166,15 +162,7 @@ public class RegisterControl extends HttpServlet {
             return "Passwords do not match. Please ensure that the entered passwords match.";
         }
 
-        // Validate phone
-        if (!isValidPhone(phone)) {
-            return "Invalid phone number. Please enter a valid phone number.";
-        }
 
-        // Validate address
-        if (!isValidAddress(address)) {
-            return "Invalid address. Please enter a valid address.";
-        }
 
         return null; // No validation error
     }

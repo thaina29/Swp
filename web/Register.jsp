@@ -1,259 +1,259 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
     <head>
-        <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <title>Register</title>
-        <!-- Font Awesome -->
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
-            />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-            />
-
-        <!-- MDB -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css"
-            rel="stylesheet"
-            />
-        <!-- Custom styles -->
+        <meta charset="UTF-8">
+        <title>CodePen - A Pen by Mohithpoojary</title>
+        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'><link rel="stylesheet" href="./style.css">
         <style>
-            .icon-hover:hover {
-                border-color: #3b71ca !important;
-                background-color: white !important;
+            @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: Raleway, sans-serif;
             }
 
-            .icon-hover:hover i {
-                color: #3b71ca !important;
+            body {
+                background: linear-gradient(90deg, #C7C5F4, #776BCC);
+            }
+
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+            }
+
+            .screen {
+                background: linear-gradient(90deg, #5D54A4, #7C78B8);
+                position: relative;
+                height: 600px;
+                width: 360px;
+                box-shadow: 0px 0px 24px #5C5696;
+            }
+
+            .screen__content {
+                z-index: 1;
+                position: relative;
+                height: 100%;
+            }
+
+            .screen__background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 0;
+                -webkit-clip-path: inset(0 0 0 0);
+                clip-path: inset(0 0 0 0);
+            }
+
+            .screen__background__shape {
+                transform: rotate(45deg);
+                position: absolute;
+            }
+
+            .screen__background__shape1 {
+                height: 520px;
+                width: 520px;
+                background: #FFF;
+                top: -50px;
+                right: 120px;
+                border-radius: 0 72px 0 0;
+            }
+
+            .screen__background__shape2 {
+                height: 220px;
+                width: 220px;
+                background: #6C63AC;
+                top: -172px;
+                right: 0;
+                border-radius: 32px;
+            }
+
+            .screen__background__shape3 {
+                height: 540px;
+                width: 190px;
+                background: linear-gradient(270deg, #5D54A4, #6A679E);
+                top: -24px;
+                right: 0;
+                border-radius: 32px;
+            }
+
+            .screen__background__shape4 {
+                height: 400px;
+                width: 200px;
+                background: #7E7BB9;
+                top: 420px;
+                right: 50px;
+                border-radius: 60px;
+            }
+
+            .login {
+                width: 320px;
+                padding: 30px;
+                padding-top: 80px;
+            }
+
+            .login__field {
+                padding: 20px 0px;
+                position: relative;
+            }
+
+            .login__icon {
+                position: absolute;
+                top: 30px;
+                color: #7875B5;
+            }
+
+            .login__input {
+                border: none;
+                border-bottom: 2px solid #D1D1D4;
+                background: none;
+                padding: 10px;
+                padding-left: 24px;
+                font-weight: 700;
+                width: 75%;
+                transition: .2s;
+            }
+
+            .login__input:active,
+            .login__input:focus,
+            .login__input:hover {
+                outline: none;
+                border-bottom-color: #6A679E;
+            }
+
+            .login__submit {
+                background: #fff;
+                font-size: 14px;
+                margin-top: 30px;
+                padding: 16px 20px;
+                border-radius: 26px;
+                border: 1px solid #D4D3E8;
+                text-transform: uppercase;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                color: #4C489D;
+                box-shadow: 0px 2px 2px #5C5696;
+                cursor: pointer;
+                transition: .2s;
+            }
+
+            .login__submit:active,
+            .login__submit:focus,
+            .login__submit:hover {
+                border-color: #6A679E;
+                outline: none;
+            }
+
+            .button__icon {
+                font-size: 24px;
+                margin-left: auto;
+                color: #7875B5;
+            }
+
+            .social-login {
+                position: absolute;
+                height: 140px;
+                width: 160px;
+                text-align: center;
+                bottom: 0px;
+                right: 0px;
+                color: #fff;
+            }
+
+            .social-icons {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .social-login__icon {
+                padding: 20px 10px;
+                color: #fff;
+                text-decoration: none;
+                text-shadow: 0px 0px 8px #7875B5;
+            }
+
+            .social-login__icon:hover {
+                transform: scale(1.5);
             }
         </style>
     </head>
     <body>
-        <!--Main Navigation-->
-        <header>
-            <!-- Jumbotron -->
-            <jsp:include page="Header.jsp"></jsp:include>
-                <!-- Jumbotron -->
+        <!-- partial:index.partial.html -->
+        <div class="container">
+            <div class="screen">
+                <div class="screen__content">
 
-
-            </header>
-            <!-- Section: Design Block -->
-            <section class="text-center">
-                <!-- Background image -->
-                <div class="p-5 bg-image" style="
-                     background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
-                     height: 300px;
-                     "></div>
-                <!-- Background image -->
-
-                <div class="card mx-4 mx-md-5 shadow-5-strong bg-body-tertiary" style="
-                     margin-top: -100px;
-                     backdrop-filter: blur(30px);
-                     ">
-                    <div class="card-body py-5 px-md-5">
-
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-8">
-                                <h2 class="fw-bold mb-5">Sign up now</h2>
-                            <% if (request.getAttribute("errorMessage") != null) { %>
-                            <div class="text-danger">
-                                <%= request.getAttribute("errorMessage") %>
-                            </div>
-                            <% } %>
-                            <form action="register" method="post" >
-                                <!-- 2 column grid layout with text inputs for the first and last names -->
-                                <div class="form-outline mb-4">
-                                    <div data-mdb-input-init class="form-outline">
-                                        <input type="text" id="fullName" name="fullName" required oninput="validateFullName()" class="form-control" />
-                                        <label class="form-label" for="fullName">Full Name</label>
-                                    </div>
-                                    <div id="fullNameError" class="text-danger"></div>
-                                </div>
-
-                                <!-- Email input -->
-                                <div data-mdb-input-init class="form-outline mb-1">
-                                    <input type="email" class="form-control" id="email" name="email" required oninput="validateEmail()" />
-                                    <label class="form-label" for="email">Email</label>
-                                </div>
-                                <div id="emailError" class="text-danger"></div>
-
-                                <!-- Password input -->
-                                <div data-mdb-input-init class="form-outline mt-3 mb-1">
-                                    <input type="password" class="form-control" id="password" name="password" required oninput="validatePassword()" />
-                                    <label class="form-label" for="password">Password</label>
-                                </div>
-                                <div id="passwordError" class="text-danger"></div>
-
-                                <div data-mdb-input-init class="form-outline mt-3 mb-1">
-                                    <input type="password" class="form-control" id="retypePassword" name="retypePassword" required oninput="validateRetypePassword()" />
-                                    <label class="form-label" for="retypePassword">Re-Password</label>
-                                </div>
-                                <div id="retypePasswordError" class="text-danger"></div>
-
-
-                                <div class="row mt-3">
-                                    <div class="col-md-8 mb-1">
-                                        <div data-mdb-input-init class="form-outline">
-                                            <input type="text" class="form-control" id="phone" name="phone" required oninput="validatePhone()" />
-                                            <label class="form-label" for="phone">Phone</label>
-                                        </div>
-                                        <div id="phoneError" class="error-message"></div>
-                                    </div>
-                                    <div class="col-md-4 mb-1">
-                                        <label class="form-label select-label">Gender</label>
-                                        <select class="select" id="gender" name="gender" required>
-                                                <option value="true">Male</option>
-                                                <option value="false">Female</option>
-                                        </select>
-                                        
-                                    </div>
-                                </div>
-                                <div data-mdb-input-init class="form-outline mt-3 mb-1">
-                                    <input type="text" class="form-control" id="address" name="address" required oninput="validateAddress()">
-                                    <label class="form-label" for="address">Address</label>
-                                </div>
-                                <div id="addressError" class="error-message"></div>
-
-
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">
-                                    Register
-                                </button>
-                            </form>
-                            <p>Already have an account? <a href="login">Login</a></p>
+                    <form class="login" action="register" method="post" id="_form">
+                        <div style="text-align: center">
+                            <h2>Register</h2>
                         </div>
-                    </div>
+                        <% if (request.getAttribute("errorMessage") != null) { %>
+                        <div style="color: red">
+                            <%= request.getAttribute("errorMessage") %>
+                        </div>
+                        <% } %>
+                        <div class="login__field">
+                            <i class="login__icon fas fa-user"></i>
+                            <input type="text" name="fullName" id="fullName" required class="login__input" placeholder="Full name">
+                        </div>
+                        <div id="fullNameError" style="color: red"></div>
+                        <div class="login__field">
+                            <i class="login__icon fas fa-user"></i>
+                            <input type="email" id="email" name="email" required oninput="validateEmail()" class="login__input" placeholder="Email">
+                        </div>
+                        <div id="emailError" style="color: red"></div>
+                        <div class="login__field">
+                            <i class="login__icon fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required oninput="validatePassword()" class="login__input" placeholder="Password">
+                        </div>
+                        <div id="passwordError" style="color: red"></div>
+                        <div class="login__field">
+                            <i class="login__icon fas fa-lock"></i>
+                            <input type="password" name="retypePassword" id="retypePassword" required oninput="validateRetypePassword()" class="login__input" placeholder="Re-Password">
+                        </div>
+                        <div id="retypePasswordError" style="color: red"></div>
+                        <div id="retypePasswordError" style="color: red"></div>
+                        <button class="button login__submit" type="submit">
+                            <span class="button__text">Register Now</span>
+                            <i class="button__icon fas fa-chevron-right"></i>
+                        </button>				
+                    </form>
                 </div>
+                <div class="screen__background">
+                    <span class="screen__background__shape screen__background__shape4"></span>
+                    <span class="screen__background__shape screen__background__shape3"></span>		
+                    <span class="screen__background__shape screen__background__shape2"></span>
+                    <span class="screen__background__shape screen__background__shape1"></span>
+                </div>		
             </div>
-        </section>
-        <!-- Section: Design Block -->
-
-
-
-        <!-- Footer -->
-        <footer
-            class="text-center text-lg-start text-muted mt-3"
-            style="background-color: #f5f5f5"
-            >
-            <!-- Section: Links  -->
-            <section class="">
-                <div class="container text-center text-md-start pt-4 pb-4">
-                    <!-- Grid row -->
-                    <div class="row mt-3">
-                        <!-- Grid column -->
-                        <div class="col-12 col-lg-3 col-sm-12 mb-2">
-                            <!-- Content -->
-                            <a href="https://mdbootstrap.com/" target="_blank" class="">
-                                <img
-                                    src="${pageContext.request.contextPath}/Image/logo.png"
-                                    height="35"
-                                    />
-                            </a>
-                            <p class="mt-2 text-dark">© 2023 Copyright: SWP391 - FPT University</p>
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <!-- Links -->
-                            <h6 class="text-uppercase text-dark fw-bold mb-2">Store</h6>
-                            <ul class="list-unstyled mb-4">
-                                <li><a class="text-muted" href="#">About us</a></li>
-                                <li><a class="text-muted" href="#">Find store</a></li>
-                                <li><a class="text-muted" href="#">Categories</a></li>
-                                <li><a class="text-muted" href="#">Blogs</a></li>
-                            </ul>
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <!-- Links -->
-                            <h6 class="text-uppercase text-dark fw-bold mb-2">Information</h6>
-                            <ul class="list-unstyled mb-4">
-                                <li><a class="text-muted" href="#">Help center</a></li>
-                                <li><a class="text-muted" href="#">Money refund</a></li>
-                                <li><a class="text-muted" href="#">Shipping info</a></li>
-                                <li><a class="text-muted" href="#">Refunds</a></li>
-                            </ul>
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-6 col-sm-4 col-lg-2">
-                            <!-- Links -->
-                            <h6 class="text-uppercase text-dark fw-bold mb-2">Support</h6>
-                            <ul class="list-unstyled mb-4">
-                                <li><a class="text-muted" href="#">Help center</a></li>
-                                <li><a class="text-muted" href="#">Documents</a></li>
-                                <li><a class="text-muted" href="#">Account restore</a></li>
-                                <li><a class="text-muted" href="#">My orders</a></li>
-                            </ul>
-                        </div>
-                        <!-- Grid column -->
-
-                        <!-- Grid column -->
-                        <div class="col-12 col-sm-12 col-lg-3">
-                            <!-- Links -->
-                            <h6 class="text-uppercase text-dark fw-bold mb-2">Newsletter</h6>
-                            <p class="text-muted">
-                                Stay in touch with latest updates about our products and offers
-                            </p>
-                            <div class="input-group mb-3">
-                                <input
-                                    type="email"
-                                    class="form-control border"
-                                    placeholder="Email"
-                                    aria-label="Email"
-                                    aria-describedby="button-addon2"
-                                    />
-                                <button
-                                    class="btn btn-light border shadow-0"
-                                    type="button"
-                                    id="button-addon2"
-                                    data-mdb-ripple-color="dark"
-                                    >
-                                    Join
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Grid column -->
-                    </div>
-                    <!-- Grid row -->
-                </div>
-            </section>
-            <!-- Section: Links  -->
-
-        </footer>
-        <!-- Footer -->
-        <!-- MDB -->
-        <script
-            type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
-        ></script>
-        <!-- Custom scripts -->
-        <script>
+        </div>
+        <!-- partial -->
+        <script type="text/javascript">
+            let validateFullname = true;
+            let validatepassword = true;
+            let validateRePassword = true;
+            let _validateEmail = true;
             function validateFullName() {
                 var fullNameInput = document.getElementById('fullName');
                 var fullNameError = document.getElementById('fullNameError');
 
-                if (fullNameInput.value.trim().length < 8) {
-                    fullNameError.textContent = 'Full Name must be more than 8 characters';
+                if (fullNameInput.value.trim().length === 0) {
+                    fullNameError.textContent = 'Full Name must be more than 0 characters';
+                    validateFullname = false;
                 } else {
                     fullNameError.textContent = '';
+                    validateFullname = true;
                 }
             }
-
             function validateEmail() {
                 var emailInput = document.getElementById('email');
                 var emailError = document.getElementById('emailError');
@@ -261,8 +261,10 @@
 
                 if (!emailRegex.test(emailInput.value)) {
                     emailError.textContent = 'Invalid email address';
+                    _validateEmail = false;
                 } else {
                     emailError.textContent = '';
+                    _validateEmail = true;
                 }
             }
 
@@ -271,9 +273,11 @@
                 var passwordError = document.getElementById('passwordError');
 
                 if (passwordInput.value.trim().length < 8) {
-                    passwordError.textContent = 'Password must be more than 8 characters';
+                    passwordError.textContent = 'Password more than 8 characters';
+                    validatepassword = false;
                 } else {
                     passwordError.textContent = '';
+                    validatepassword = true;
                 }
             }
 
@@ -283,37 +287,20 @@
                 var retypePasswordError = document.getElementById('retypePasswordError');
 
                 if (retypePasswordInput.value !== passwordInput.value) {
+                    validateRePassword = false;
                     retypePasswordError.textContent = 'Passwords do not match';
                 } else {
                     retypePasswordError.textContent = '';
+                    validateRePassword = true;
                 }
             }
-
-            function validatePhone() {
-                var phoneInput = document.getElementById('phone');
-                var phoneError = document.getElementById('phoneError');
-                var phoneRegex = /^\d+$/;
-
-                if (phoneInput.value.trim() === '' || !phoneRegex.test(phoneInput.value)) {
-                    phoneError.textContent = 'Invalid phone number. Please enter digits only.';
-                } else {
-                    phoneError.textContent = '';
-                }
-            }
-
-            function validateAddress() {
-                var addressInput = document.getElementById('address');
-                var addressError = document.getElementById('addressError');
-
-                if (addressInput.value.trim() === '') {
-                    addressError.textContent = 'Address cannot be empty';
-                } else {
-                    addressError.textContent = '';
-                }
-            }
+            document.getElementById('_form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (!validateFullname || !validatepassword || !validateRePassword || !_validateEmail)
+                    return;
+                event.target.submit();
+            });
         </script>
+
     </body>
 </html>
-
-
-

@@ -1,259 +1,236 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>CodePen - A Pen by Mohithpoojary</title>
-        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'><link rel="stylesheet" href="./style.css">
-        <style>
-            @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+        <title>Register</title>
 
-            * {
-                box-sizing: border-box;
-                margin: 0;
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+        <style media="screen">
+            *,:before,:after{
                 padding: 0;
-                font-family: Raleway, sans-serif;
+                margin: 0;
+                box-sizing: border-box;
             }
-
-            body {
-                background: linear-gradient(90deg, #C7C5F4, #776BCC);
+            body{
+                background-color: #080710;
             }
-
-            .container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-            }
-
-            .screen {
-                background: linear-gradient(90deg, #5D54A4, #7C78B8);
-                position: relative;
-                height: 600px;
-                width: 360px;
-                box-shadow: 0px 0px 24px #5C5696;
-            }
-
-            .screen__content {
-                z-index: 1;
-                position: relative;
-                height: 100%;
-            }
-
-            .screen__background {
+            .background{
+                width: 430px;
+                height: 800px;
                 position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 0;
-                -webkit-clip-path: inset(0 0 0 0);
-                clip-path: inset(0 0 0 0);
+                transform: translate(-50%,-50%);
+                left: 50%;
+                top: 50%;
             }
-
-            .screen__background__shape {
-                transform: rotate(45deg);
-                position: absolute;
-            }
-
-            .screen__background__shape1 {
-                height: 520px;
-                width: 520px;
-                background: #FFF;
-                top: -50px;
-                right: 120px;
-                border-radius: 0 72px 0 0;
-            }
-
-            .screen__background__shape2 {
-                height: 220px;
-                width: 220px;
-                background: #6C63AC;
-                top: -172px;
-                right: 0;
-                border-radius: 32px;
-            }
-
-            .screen__background__shape3 {
-                height: 540px;
-                width: 190px;
-                background: linear-gradient(270deg, #5D54A4, #6A679E);
-                top: -24px;
-                right: 0;
-                border-radius: 32px;
-            }
-
-            .screen__background__shape4 {
-                height: 400px;
+            .background .shape{
+                height: 200px;
                 width: 200px;
-                background: #7E7BB9;
-                top: 420px;
-                right: 50px;
-                border-radius: 60px;
-            }
-
-            .login {
-                width: 320px;
-                padding: 30px;
-                padding-top: 80px;
-            }
-
-            .login__field {
-                padding: 20px 0px;
-                position: relative;
-            }
-
-            .login__icon {
                 position: absolute;
-                top: 30px;
-                color: #7875B5;
+                border-radius: 50%;
             }
-
-            .login__input {
+            .shape:first-child{
+                background: linear-gradient(#1845ad, #23a2f6);
+                left: -80px;
+                top: -80px;
+            }
+            .shape:last-child{
+                background: linear-gradient(to right, #ff512f, #f09819);
+                right: -30px;
+                bottom: -80px;
+            }
+            form{
+                height: 780px;
+                width: 500px;
+                background-color: rgba(255,255,255,0.13);
+                position: absolute;
+                transform: translate(-50%,-50%);
+                top: 50%;
+                left: 50%;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+                border: 2px solid rgba(255,255,255,0.1);
+                box-shadow: 0 0 40px rgba(8,7,16,0.6);
+                padding: 50px 35px;
+            }
+            form *{
+                font-family: 'Poppins',sans-serif;
+                color: #ffffff;
+                letter-spacing: 0.5px;
+                outline: none;
                 border: none;
-                border-bottom: 2px solid #D1D1D4;
-                background: none;
-                padding: 10px;
-                padding-left: 24px;
-                font-weight: 700;
-                width: 75%;
-                transition: .2s;
             }
-
-            .login__input:active,
-            .login__input:focus,
-            .login__input:hover {
-                outline: none;
-                border-bottom-color: #6A679E;
-            }
-
-            .login__submit {
-                background: #fff;
-                font-size: 14px;
-                margin-top: 30px;
-                padding: 16px 20px;
-                border-radius: 26px;
-                border: 1px solid #D4D3E8;
-                text-transform: uppercase;
-                font-weight: 700;
-                display: flex;
-                align-items: center;
-                width: 100%;
-                color: #4C489D;
-                box-shadow: 0px 2px 2px #5C5696;
-                cursor: pointer;
-                transition: .2s;
-            }
-
-            .login__submit:active,
-            .login__submit:focus,
-            .login__submit:hover {
-                border-color: #6A679E;
-                outline: none;
-            }
-
-            .button__icon {
-                font-size: 24px;
-                margin-left: auto;
-                color: #7875B5;
-            }
-
-            .social-login {
-                position: absolute;
-                height: 140px;
-                width: 160px;
+            form h3{
+                font-size: 32px;
+                font-weight: 500;
+                line-height: 42px;
                 text-align: center;
-                bottom: 0px;
-                right: 0px;
-                color: #fff;
             }
 
-            .social-icons {
+            label{
+                display: block;
+                margin-top: 20px;
+                font-size: 16px;
+                font-weight: 500;
+            }
+            input, select{
+                display: block;
+                height: 50px;
+                width: 100%;
+                background-color: rgba(255,255,255,0.07);
+                border-radius: 3px;
+                padding: 0 10px;
+                margin-top: 8px;
+                font-size: 14px;
+                font-weight: 300;
+            }
+            select{
+                height: 55px;
+                cursor: pointer;
+            }
+            ::placeholder{
+                color: #e5e5e5;
+            }
+
+            /* Flex container for paired inputs */
+            .flex-container {
                 display: flex;
-                align-items: center;
-                justify-content: center;
+                justify-content: space-between;
+                gap: 20px;
             }
 
-            .social-login__icon {
-                padding: 20px 10px;
-                color: #fff;
-                text-decoration: none;
-                text-shadow: 0px 0px 8px #7875B5;
+            /* Flex children (each input field) */
+            .flex-item {
+                width: 48%; /* Each input takes almost half of the space */
             }
 
-            .social-login__icon:hover {
-                transform: scale(1.5);
+            button{
+                margin-top: 40px;
+                width: 100%;
+                background-color: #ffffff;
+                color: #080710;
+                padding: 15px 0;
+                font-size: 18px;
+                font-weight: 600;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            /* Error message style */
+            .error {
+                color: #ff4d4d;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+
+            .social{
+                margin-top: 30px;
+                display: flex;
+            }
+            .social div{
+                background: red;
+                width: 200px;
+                border-radius: 3px;
+                padding: 5px 10px 10px 5px;
+                background-color: rgba(255,255,255,0.27);
+                color: #eaf0fb;
+                text-align: center;
+            }
+            .social div:hover{
+                background-color: rgba(255,255,255,0.47);
+            }
+            .social .fb{
+                margin-left: 25px;
+            }
+            .social i{
+                margin-right: 4px;
             }
         </style>
     </head>
     <body>
-        <!-- partial:index.partial.html -->
-        <div class="container">
-            <div class="screen">
-                <div class="screen__content">
-
-                    <form class="login" action="register" method="post" id="_form">
-                        <div style="text-align: center">
-                            <h2>Register</h2>
-                        </div>
-                        <% if (request.getAttribute("errorMessage") != null) { %>
-                        <div style="color: red">
-                            <%= request.getAttribute("errorMessage") %>
-                        </div>
-                        <% } %>
-                        <div class="login__field">
-                            <i class="login__icon fas fa-user"></i>
-                            <input type="text" name="fullName" id="fullName" required class="login__input" placeholder="Full name">
-                        </div>
-                        <div id="fullNameError" style="color: red"></div>
-                        <div class="login__field">
-                            <i class="login__icon fas fa-user"></i>
-                            <input type="email" id="email" name="email" required oninput="validateEmail()" class="login__input" placeholder="Email">
-                        </div>
-                        <div id="emailError" style="color: red"></div>
-                        <div class="login__field">
-                            <i class="login__icon fas fa-lock"></i>
-                            <input type="password" id="password" name="password" required oninput="validatePassword()" class="login__input" placeholder="Password">
-                        </div>
-                        <div id="passwordError" style="color: red"></div>
-                        <div class="login__field">
-                            <i class="login__icon fas fa-lock"></i>
-                            <input type="password" name="retypePassword" id="retypePassword" required oninput="validateRetypePassword()" class="login__input" placeholder="Re-Password">
-                        </div>
-                        <div id="retypePasswordError" style="color: red"></div>
-                        <div id="retypePasswordError" style="color: red"></div>
-                        <button class="button login__submit" type="submit">
-                            <span class="button__text">Register Now</span>
-                            <i class="button__icon fas fa-chevron-right"></i>
-                        </button>				
-                    </form>
-                </div>
-                <div class="screen__background">
-                    <span class="screen__background__shape screen__background__shape4"></span>
-                    <span class="screen__background__shape screen__background__shape3"></span>		
-                    <span class="screen__background__shape screen__background__shape2"></span>
-                    <span class="screen__background__shape screen__background__shape1"></span>
-                </div>		
-            </div>
+        <div class="background">
+            <div class="shape"></div>
+            <div class="shape"></div>
         </div>
-        <!-- partial -->
-        <script type="text/javascript">
-            let validateFullname = true;
-            let validatepassword = true;
-            let validateRePassword = true;
-            let _validateEmail = true;
+        <form action="register" method="post">
+            <h3>Register Here</h3>
+            <% if (request.getAttribute("errorMessage") != null) { %>
+            <div style="color: red; text-align: center">
+                <%= request.getAttribute("errorMessage") %>
+            </div>
+            <% } %>
+
+            <!-- Pair Username and Email -->
+            <div class="flex-container">
+                <div class="flex-item">
+                    <label for="fullName">Full name</label>
+                    <input type="text" name="fullName" id="fullName" required class="login__input" placeholder="Full name">
+                    <span class="error" id="fullNameError"></span>
+                </div>
+                <div class="flex-item">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required oninput="validateEmail()" class="login__input" placeholder="Email">
+                    <span class="error" id="emailError"></span>
+                </div>
+            </div>
+
+            <!-- Pair Phone and Gender -->
+            <div class="flex-container">
+                <div class="flex-item">
+                    <label for="phone">Phone</label>
+                     <input type="text" id="phone" name="phone" required oninput="validatePhone()">
+                    <span class="error" id="phoneError"></span>
+                </div>
+                <div class="flex-item">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="true" style="color: black" selected>Male</option>
+                        <option value="false" style="color: black">Female</option>
+                    </select>
+                    
+                </div>
+            </div>
+
+            <!-- Address (full width) -->
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required oninput="validateAddress()">
+            <span class="error" id="addressError"></span>
+
+            <!-- Pair Password and Confirm Password -->
+            <div class="flex-container">
+                <div class="flex-item">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required oninput="validatePassword()" class="login__input" placeholder="Password">
+                    <span class="error" id="passwordError"></span>
+                </div>
+                <div class="flex-item">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" name="retypePassword" id="retypePassword" required oninput="validateRetypePassword()" class="login__input" placeholder="Re-Password">
+                    <span class="error" id="retypePasswordError"></span>
+                </div>
+            </div>
+
+            <button type="submit">Register</button>
+
+            <div class="social">
+                <div class="go"><a href="login">Login</a></div>
+                <div class="fb"><a href="reset-password">Forgot Password</a></div>
+            </div>
+        </form>
+        <script>
             function validateFullName() {
                 var fullNameInput = document.getElementById('fullName');
                 var fullNameError = document.getElementById('fullNameError');
 
-                if (fullNameInput.value.trim().length === 0) {
-                    fullNameError.textContent = 'Full Name must be more than 0 characters';
-                    validateFullname = false;
+                if (fullNameInput.value.trim().length < 8) {
+                    fullNameError.textContent = 'Full Name must be more than 8 characters';
                 } else {
                     fullNameError.textContent = '';
-                    validateFullname = true;
                 }
             }
+
             function validateEmail() {
                 var emailInput = document.getElementById('email');
                 var emailError = document.getElementById('emailError');
@@ -261,10 +238,8 @@
 
                 if (!emailRegex.test(emailInput.value)) {
                     emailError.textContent = 'Invalid email address';
-                    _validateEmail = false;
                 } else {
                     emailError.textContent = '';
-                    _validateEmail = true;
                 }
             }
 
@@ -273,11 +248,9 @@
                 var passwordError = document.getElementById('passwordError');
 
                 if (passwordInput.value.trim().length < 8) {
-                    passwordError.textContent = 'Password more than 8 characters';
-                    validatepassword = false;
+                    passwordError.textContent = 'Password must be more than 8 characters';
                 } else {
                     passwordError.textContent = '';
-                    validatepassword = true;
                 }
             }
 
@@ -287,20 +260,37 @@
                 var retypePasswordError = document.getElementById('retypePasswordError');
 
                 if (retypePasswordInput.value !== passwordInput.value) {
-                    validateRePassword = false;
                     retypePasswordError.textContent = 'Passwords do not match';
                 } else {
                     retypePasswordError.textContent = '';
-                    validateRePassword = true;
                 }
             }
-            document.getElementById('_form').addEventListener('submit', function (event) {
-                event.preventDefault();
-                if (!validateFullname || !validatepassword || !validateRePassword || !_validateEmail)
-                    return;
-                event.target.submit();
-            });
-        </script>
 
+            function validatePhone() {
+                var phoneInput = document.getElementById('phone');
+                var phoneError = document.getElementById('phoneError');
+                var phoneRegex = /^\d+$/;
+
+                if (phoneInput.value.trim() === '' || !phoneRegex.test(phoneInput.value)) {
+                    phoneError.textContent = 'Invalid phone number. Please enter digits only.';
+                } else {
+                    phoneError.textContent = '';
+                }
+            }
+
+            function validateAddress() {
+                var addressInput = document.getElementById('address');
+                var addressError = document.getElementById('addressError');
+
+                if (addressInput.value.trim() === '') {
+                    addressError.textContent = 'Address cannot be empty';
+                } else {
+                    addressError.textContent = '';
+                }
+            }
+        </script>
     </body>
 </html>
+
+
+

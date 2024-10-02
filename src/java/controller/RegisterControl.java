@@ -16,10 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Random;
 
-/**
- *
- * @author anhdu
- */
+
 @WebServlet(name = "RegisterControl", urlPatterns = {"/register"})
 public class RegisterControl extends HttpServlet {
 
@@ -77,15 +74,16 @@ public class RegisterControl extends HttpServlet {
             throws ServletException, IOException {
 
         // Retrieve parameters from the request
-
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String retypePassword = request.getParameter("retypePassword");
-        
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
 
         // Perform additional validation checks
-        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, "", "");
+        String validationError = validateRegistrationInput(fullName, email, password, retypePassword, phone, address);
 
         if (validationError != null) {
             // Validation failed
@@ -111,25 +109,24 @@ public class RegisterControl extends HttpServlet {
                 return;
             }
 
-
             String otp = generateRandomSixDigit() + "";
             String verifyLink = "http://" + request.getServerName() + ":" + request.getServerPort()
                     + request.getContextPath() + "/verify?otp=" + otp + "&email=" + email;
 
             // Send mail verify
             EmailService.sendEmail(email, "Verify email", "Click here to verify: " + verifyLink);
-            
+
             System.out.println(otp);
             // Set register info session
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setFullname(fullName);
-            user.setGender("Female");
-            user.setAddress("");
-            user.setPhone("");
+            user.setGender(gender ? "Male" : "Female");
+            user.setAddress(address);
+            user.setPhone(phone);
             user.setIsDeleted(false);
-            
+
             request.getSession().setAttribute("verify_" + email, user);
             request.getSession().setAttribute("verify_otp_" + email, otp);
 
@@ -162,7 +159,15 @@ public class RegisterControl extends HttpServlet {
             return "Passwords do not match. Please ensure that the entered passwords match.";
         }
 
+        // Validate phone
+        if (!isValidPhone(phone)) {
+            return "Invalid phone number. Please enter a valid phone number.";
+        }
 
+        // Validate address
+        if (!isValidAddress(address)) {
+            return "Invalid address. Please enter a valid address.";
+        }
 
         return null; // No validation error
     }
@@ -208,5 +213,4 @@ public class RegisterControl extends HttpServlet {
         Random random = new Random();
         return 100000 + random.nextInt(900000);
     }
-
 }

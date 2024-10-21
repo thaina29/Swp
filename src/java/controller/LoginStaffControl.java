@@ -4,8 +4,9 @@
  */
 package controller;
 
-import DAO.UserDAO;
-import Model.User;
+import DAO.StaffDAO;
+import Model.Staff;
+import Utils.Config;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +14,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import Utils.Config;
 
 /**
  *
  * @author anhdu
  */
-@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "LoginStaffControl", urlPatterns = {"/login-staff"})
+public class LoginStaffControl extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class LoginControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("Login.jsp").forward(request, response);
+        request.getRequestDispatcher("LoginStaff.jsp").forward(request, response);
     }
 
     /**
@@ -70,18 +70,27 @@ public class LoginControl extends HttpServlet {
         String password = request.getParameter("password");
         String MD5_Password = Config.md5(password);
 
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.loginUser(email, MD5_Password);
+        StaffDAO staffDAO = new StaffDAO();
+        Staff staff = staffDAO.loginStaff(email, MD5_Password);
 
-        if (user != null) {
-            // save user info to session
-            request.getSession().setAttribute("user", user); 
-            
-            response.sendRedirect("home");
+        if (staff != null) {
+                
+            if (staff.isIsDeleted()) {
+                request.setAttribute("errorMessage", "Banned");
+                request.getRequestDispatcher("LoginStaff.jsp").forward(request, response);
+            }
+                
+            // Login successful
+            request.getSession().setAttribute("staff", staff); 
+
+            if (staff.getRole() == 1) response.sendRedirect("admin/staff");
+            if (staff.getRole() == 2) response.sendRedirect("marketing/list-post");
+            if (staff.getRole() == 3 || staff.getRole() == 4) response.sendRedirect("sale/dashboard");
+            if (staff.getRole() == 6) response.sendRedirect("inventory/list-order");
         } else {
             // Login failed
             request.setAttribute("errorMessage", "Invalid email or password");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            request.getRequestDispatcher("LoginStaff.jsp").forward(request, response);
         }
     }
 

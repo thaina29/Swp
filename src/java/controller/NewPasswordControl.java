@@ -6,7 +6,10 @@ package controller;
 
 import DAO.UserDAO;
 import Model.User;
+<<<<<<< HEAD
 import Utils.Config;
+=======
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -66,7 +69,11 @@ public class NewPasswordControl extends HttpServlet {
 
                 if (password.equals(retypePassword)) {
 
+<<<<<<< HEAD
                     user.setPassword(Config.md5(password));
+=======
+                    user.setPassword(password);
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
                     new UserDAO().updateUser(user);
                     msg = "Reset password success";
                     request.getSession().removeAttribute(email + "_reset_otp");

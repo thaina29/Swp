@@ -6,7 +6,10 @@ package controller;
 
 import DAO.UserDAO;
 import Model.User;
+<<<<<<< HEAD
 import Utils.Config;
+=======
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
 import Utils.EmailService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -121,7 +124,11 @@ public class RegisterControl extends HttpServlet {
             // Set register info session
             User user = new User();
             user.setEmail(email);
+<<<<<<< HEAD
             user.setPassword(Config.md5(password));
+=======
+            user.setPassword(password);
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
             user.setFullname(fullName);
             user.setGender(gender ? "Male" : "Female");
             user.setAddress(address);
@@ -201,7 +208,11 @@ public class RegisterControl extends HttpServlet {
     private boolean isValidEmail(String email) {
         // Implement your validation logic for email format and length
         // For example, you can use a regular expression for a basic email format check
+<<<<<<< HEAD
         return email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+=======
+        return email.matches("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
     }
 
     private boolean isValidRetypePassword(String password, String retypePassword) {

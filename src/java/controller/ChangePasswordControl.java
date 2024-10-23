@@ -6,7 +6,10 @@ package controller;
 
 import DAO.UserDAO;
 import Model.User;
+<<<<<<< HEAD
 import Utils.Config;
+=======
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -43,8 +46,13 @@ public class ChangePasswordControl extends HttpServlet {
 
         if (password.equals(repassword) && user.getPassword().equals(oldPassword)) {
 
+<<<<<<< HEAD
              user.setPassword(password);
             user.setPassword(Config.md5(password));
+=======
+            user.setPassword(password);
+            new UserDAO().updateUser(user);
+>>>>>>> b305f618666c370e1f3d33d2188b7100cdb19a24
             
             response.sendRedirect("change-pass?success");
 

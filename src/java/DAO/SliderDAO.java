@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SliderDAO {
+public class SliderDAO extends DBContext{
 
     private Connection conn;
     private PreparedStatement ps;
@@ -20,7 +20,7 @@ public class SliderDAO {
     public SliderDAO() {
         try {
             // Initialize the connection in the constructor
-            conn = new DBContext().getConnection();
+            conn = getConnection();
         } catch (Exception ex) {
             Logger.getLogger(SliderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

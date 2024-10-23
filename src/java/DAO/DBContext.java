@@ -8,7 +8,7 @@ public class DBContext {
 
     // Configuration for MySQL connection
     private final String serverName = "localhost";
-    private final String dbName = "swp391_tech";
+    private final String dbName = "swp-online-shop";
     private final String portNumber = "3306"; // Default MySQL port
     private final String userID = "root"; // Replace with your MySQL username
     private final String password = "1234"; // Replace with your MySQL password
@@ -16,7 +16,7 @@ public class DBContext {
     // Method to establish a database connection
     public Connection getConnection() {
         Connection conn = null;
-        String url = "jdbc:mysql://" + serverName + ":" + portNumber + "/" + dbName + "?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://" + serverName + ":" + portNumber + "/" + dbName + "?allowPublicKeyRetrieval=true&useSSL=true&serverTimezone=UTC";
 
         try {
             // Load MySQL JDBC driver

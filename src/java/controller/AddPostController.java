@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import Utils.Config;
 
 /**
  *
@@ -70,6 +71,7 @@ public class AddPostController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
+<<<<<<< HEAD:src/java/controller/AddPostController.java
     throws ServletException, IOException {
         // Get the form data
         String title = request.getParameter("title");
@@ -81,6 +83,27 @@ public class AddPostController extends HttpServlet {
         int createdBy = 1; //need delete
         boolean isSuccess = new PostDAO().createPost(title, content, category, createdBy, imgURL);
         response.sendRedirect("list-post?isSuccess=" + isSuccess);
+=======
+            throws ServletException, IOException {
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String MD5_Password = Config.md5(password);
+
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.loginUser(email, MD5_Password);
+
+        if (user != null) {
+            // save user info to session
+            request.getSession().setAttribute("user", user); 
+            
+            response.sendRedirect("home");
+        } else {
+            // Login failed
+            request.setAttribute("errorMessage", "Invalid email or password");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+>>>>>>> thaina:src/java/controller/LoginControl.java
     }
 
     /** 

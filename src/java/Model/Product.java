@@ -1,65 +1,39 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
 
+import DAO.ProductDAO;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Product {
     private int productId;
-    private int categoryId;
     private String productName;
-    private int isDeleted;
-    private String createdAt;
+    private String categoryName;
     private String description;
-    private int createdBy;
     private ProductDetail productDetail;
-    private List<ProductDetail> productDetails;
-
-    public Product() {
-    }
-    
-    public Product(int productID, int categoryID, String productName, int isDeleted, String createdAt, String description, int createdBy, List<ProductDetail> productDetails) {
-        this.productId = productID;
-        this.categoryId = categoryID;
-        this.productName = productName;
-        this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.description = description;
-        this.createdBy = createdBy;
-        this.productDetails = productDetails;
-    }
-    
-    public Product(int productID, int categoryID, String productName, int isDeleted, String createdAt, String description, int createdBy, ProductDetail productDetail) {
-        this.productId = productID;
-        this.categoryId = categoryID;
-        this.productName = productName;
-        this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.description = description;
-        this.createdBy = createdBy;
-        this.productDetail = productDetail;
-    }
-
-    public ProductDetail getProductDetail() {
-        return productDetail;
-    }
-
-    public void setProductDetail(ProductDetail ProductDetail) {
-        this.productDetail = ProductDetail;
-    }
-    
-    public int getProductID() {
+    private Timestamp createdAt;
+    private int createdBy;
+    private Boolean isDeleted;
+    private int categoryId;
+    private List<ProductDetail> listProductDetail;
+    // Getters and setters
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productId = productID;
+    public List<ProductDetail> getListProductDetail() {
+        return  new ProductDAO().getProductDetailsByProductId(productId);
     }
 
-    public int getCategoryID() {
-        return categoryId;
+    public void setListProductDetail(List<ProductDetail> listProductDetail) {
+        this.listProductDetail = listProductDetail;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryId = categoryID;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {
@@ -70,28 +44,28 @@ public class Product {
         this.productName = productName;
     }
 
-    public int getIsDeleted() {
-        return isDeleted;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setIsDeleted(int isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getCreatedAt() {
+    public ProductDetail getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
+    }
+
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getCreatedBy() {
@@ -102,19 +76,41 @@ public class Product {
         this.createdBy = createdBy;
     }
 
-    public List<ProductDetail> getProductDetails() {
-        return productDetails;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProductDetails(List<ProductDetail> productDetails) {
-        this.productDetails = productDetails;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return "Product{" + "productID=" + productId + ", categoryID=" + categoryId + ", productName=" + productName + ", isDeleted=" + isDeleted + ", createdAt=" + createdAt + ", description=" + description + ", createdBy=" + createdBy + ", productDetails=" + productDetails + '}';
+        return "Product{" + "productId=" + productId + ", productName=" + productName + ", categoryName=" + categoryName + ", description=" + description + ", productDetail=" + productDetail + ", createdAt=" + createdAt + ", createdBy=" + createdBy + '}';
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
     
-    
-    
+    public String getThumb() {
+        return new ProductDAO().getProductDetailByProductId(productId).getImageURL();
+    }
+
+    public ProductDetail getDetail() {
+        return new ProductDAO().getProductDetailByProductId(productId);
+    }
+  
 }

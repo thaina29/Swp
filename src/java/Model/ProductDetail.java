@@ -1,45 +1,141 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
 
+import DAO.CategoryDAO;
+import DAO.OrderDAO;
+import DAO.ProductDAO;
+import java.sql.*;
+import java.util.List;
+
+/**
+ *
+ * @author Legion
+ */
 public class ProductDetail {
-    private int productDetailID;
-    private int productID;
+    private int productDetailId;
+    private int productId;
     private String imageURL;
+    private String size;
+    private String color;
     private int stock;
-    private int isDeleted;
-    private String createdAt;
-    private int createdBy;
     private double price;
-    private double discount;
+    private int discount;
+    private Timestamp createdAt;
+    private int createdBy;
+    private int orderDetailId;
+    private int hold;
+    private float importPrice;
+    private String categoryName;
+    private String productName;
+    private boolean isDeleted;
+    private String description;
+    
+    
 
-    public ProductDetail(int productDetailID, int productID, String imageURL, int stock, int isDeleted, String createdAt, int createdBy, double price, double discount) {
-        this.productDetailID = productDetailID;
-        this.productID = productID;
-        this.imageURL = imageURL;
-        this.stock = stock;
+    
+    
+    
+
+    public boolean getIsDeleted() {
+        return new ProductDAO().getProductById(productId).getIsDeleted();
+    }
+
+    public String getDescription() {
+        return new ProductDAO().getProductById(productId).getDescription();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+
+    public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.price = price;
-        this.discount = discount;
+    }
+    
+   
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
+    
+    public String getProductName() {
+        return new ProductDAO().getProductById(productId).getProductName();
+    }
+    
+    
+
+    public String getCategoryName() {
+        return new ProductDAO().getProductById(productId).getCategoryName();
     }
 
-    public ProductDetail() {
+    
+    
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+    
+    
+
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
-    public int getProductDetailID() {
-        return productDetailID;
+    public int getHold() {
+        return hold;
     }
 
-    public void setProductDetailID(int productDetailID) {
-        this.productDetailID = productDetailID;
+    public void setHold(int hold) {
+        this.hold = hold;
     }
 
-    public int getProductID() {
-        return productID;
+    public float getImportPrice() {
+        return importPrice;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setImportPrice(float importPrice) {
+        this.importPrice = importPrice;
+    }
+    
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+    
+        
+    public boolean isFeedbacked() {
+        return new OrderDAO().isFeedbacked(orderDetailId);
+    }
+    
+    private int buyQuantity;
+    
+    public int getProductId() {
+        return productId;
+    }
+
+    public int getBuyQuantity() {
+        return buyQuantity;
+    }
+
+    public void setBuyQuantity(int buyQuantity) {
+        this.buyQuantity = buyQuantity;
+    }
+
+    // Getters and setters
+    public void setProductId(int productId) {    
+        this.productId = productId;
+    }
+
+    public int getProductDetailId() {
+        return productDetailId;
+    }
+
+    public void setProductDetailId(int productDetailId) {
+        this.productDetailId = productDetailId;
     }
 
     public String getImageURL() {
@@ -50,6 +146,22 @@ public class ProductDetail {
         this.imageURL = imageURL;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public int getStock() {
         return stock;
     }
@@ -58,19 +170,11 @@ public class ProductDetail {
         this.stock = stock;
     }
 
-    public int getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(int isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public String getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -90,19 +194,27 @@ public class ProductDetail {
         this.price = price;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
+    }
+    
+    
+    public String getCateogryName() {
+        return new ProductDAO().getProductById(productId).getCategoryName();
+    }
+    
+    public Product getProduct() {
+        return new ProductDAO().getProductByIdDcm(productId);
     }
 
     @Override
     public String toString() {
-        return "ProductDetail{" + "productDetailID=" + productDetailID + ", productID=" + productID + ", imageURL=" + imageURL + ", stock=" + stock + ", isDeleted=" + isDeleted + ", createdAt=" + createdAt + ", createdBy=" + createdBy + ", price=" + price + ", discount=" + discount + '}';
+        return "ProductDetail{" + "productDetailId=" + productDetailId + ", imageURL=" + imageURL + ", size=" + size + ", color=" + color + ", stock=" + stock + ", price=" + price + ", discount=" + discount + ", createdAt=" + createdAt + ", createdBy=" + createdBy + '}';
     }
-    
     
     
 }

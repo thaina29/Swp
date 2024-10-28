@@ -122,8 +122,7 @@
                                     <c:if test="${item.status eq 'Success'}">
                                         <a href="confirm-order?orderId=${item.id}" class="checkout-btn" style="margin-right: 10px; padding: 10px;">Close</a>
                                     </c:if>
-
-                                    <c:if test="${item.status eq 'Wait for pay' && !item.isExpired()}">
+                                    <c:if test="${item.status eq 'Wait for pay'}">
                                         <a href="../public/payment?orderId=${item.id}&method=repay&amount=${item.totalCost}" class="checkout-btn" style="padding: 10px;">Continue payment</a>
                                     </c:if>
                                 </td>

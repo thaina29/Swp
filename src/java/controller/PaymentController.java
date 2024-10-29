@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.TimeZone;
 import Utils.Config;
 import com.google.gson.Gson;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -43,12 +45,19 @@ public class PaymentController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);
     }
-    
-    
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse respone) throws ServletException, IOException {
+        // Lấy giá trị từ input ẩn
+        String selectedIds = request.getParameter("selectedProductIds");
 
+// Chuyển chuỗi thành List<Integer>
+        List<Integer> selectedIdsList = null;
+        if (selectedIds != null && !selectedIds.isEmpty()) {
+            selectedIdsList = Arrays.stream(selectedIds.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        }
         String amount_raw = request.getParameter("amount");
         double amount_d = Double.parseDouble(amount_raw);
         int amount = (int) amount_d * 100 * 25000;
@@ -121,7 +130,7 @@ public class PaymentController extends HttpServlet {
         //Section : Add new payment
         //Get user payment
         String method = request.getParameter("method");
-        if(method.equalsIgnoreCase("tranfer1")) {
+        if (method.equalsIgnoreCase("tranfer1")) {
             respone.sendRedirect("tranfer-commit");
             return;
         }
@@ -148,17 +157,17 @@ public class PaymentController extends HttpServlet {
         order.setPaymentMethod(method);
         order.setUserId(user.getId());
         int orderId = 0;
-        if(request.getParameter("orderId") != null && !request.getParameter("orderId").isEmpty()) {
-           orderId = Integer.parseInt(request.getParameter("orderId"));
+        if (request.getParameter("orderId") != null && !request.getParameter("orderId").isEmpty()) {
+            orderId = Integer.parseInt(request.getParameter("orderId"));
         }
-         
+
         if (method.equalsIgnoreCase("vnpay") || method.equalsIgnoreCase("COD")) {
             orderId = new OrderDAO().createOrder(order);
         }
-        
+
         Config.orderID = orderId;
         // Retrieve cart items from session or request (assuming a method getCartItems exists)
-        List<Cart> cartItems = new CartDAO().getAllCarts(user.getId());
+        List<Cart> cartItems = new CartDAO().getAllCarts(user.getId(), selectedIdsList);
         // Insert Order Details
         if (request.getParameter("mode") != null) {
             int productDetailId = Integer.parseInt(request.getParameter("productdetailId"));
@@ -176,11 +185,11 @@ public class PaymentController extends HttpServlet {
                 orderDetail.setProductDetailId(cartItem.getProductDetailId());
                 orderDetail.setQuantity(cartItem.getQuantity());
                 new OrderDAO().createOrderDetail(orderDetail);
-                if(method.equalsIgnoreCase("COD")) {
+                if (method.equalsIgnoreCase("COD")) {
                     new ProductDAO().updateProductDetailQuantity(cartItem.getProductDetailId(), cartItem.getQuantity());
                 }
             }
-            new CartDAO().clearCart(user.getId());
+            new CartDAO().clearSelectedCartItems(user.getId(), selectedIdsList);
         }
 
         if (method.equalsIgnoreCase("vnpay") || method.equalsIgnoreCase("repay")) {

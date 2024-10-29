@@ -81,14 +81,13 @@ public class CartController extends HttpServlet {
         List<Cart> cartItemsFull = cartDAO.getAllCarts(userId);
         List<Cart> cartItems = cartDAO.getAllCarts(userId, page, PAGE_SIZE, searchQuery, category);
         List<Category> categories = new PostDAO().getUniqueCategories();
-        List<Product> products = productDAO.getThreeLastestProducts();
+
 
         int totalCartItems = cartDAO.getCartCount(userId, searchQuery, category);
         int totalPages = (int) Math.ceil((double) totalCartItems / PAGE_SIZE);
 
         request.setAttribute("cartItemsFull", cartItemsFull);
         request.setAttribute("cartItems", cartItems);
-        request.setAttribute("products", products);
         request.setAttribute("categories", categories);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);

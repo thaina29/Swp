@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -56,6 +57,47 @@ public class CartDAO {
                 int createdBy = rs.getInt("createdBy");
 
                 // Create a Cart object and add it to the list
+                Cart cart = new Cart(id, userId, productDetailId, quantity, isDeleted, new Date(createdAt.getTime()), createdBy);
+                carts.add(cart);
+            }
+        } catch (SQLException e) {
+            System.out.println("getAllCarts: " + e.getMessage());
+        }
+        return carts;
+    }
+
+    public List<Cart> getAllCarts(int userId, List<Integer> selectedIds) {
+        List<Cart> carts = new ArrayList<>();
+        try {
+            // Xây dựng điều kiện lọc dựa trên danh sách ID sản phẩm đã chọn
+            String selectedIdsCondition = "";
+            if (selectedIds != null && !selectedIds.isEmpty()) {
+                selectedIdsCondition = "AND productDetailId IN ("
+                        + selectedIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
+            }
+
+            // SQL query để lấy các cart dựa theo userId và danh sách productDetailId
+            String query = "SELECT id, userId, productDetailId, quantity, isDeleted, createdAt, createdBy "
+                    + "FROM `swp-online-shop`.`Cart` "
+                    + "WHERE userId = ? " + selectedIdsCondition;
+
+            // Chuẩn bị câu lệnh SQL
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, userId);
+
+            // Thực thi truy vấn
+            rs = stmt.executeQuery();
+
+            // Xử lý kết quả truy vấn
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int productDetailId = rs.getInt("productDetailId");
+                int quantity = rs.getInt("quantity");
+                boolean isDeleted = rs.getBoolean("isDeleted");
+                Timestamp createdAt = rs.getTimestamp("createdAt");
+                int createdBy = rs.getInt("createdBy");
+
+                // Tạo đối tượng Cart và thêm vào danh sách
                 Cart cart = new Cart(id, userId, productDetailId, quantity, isDeleted, new Date(createdAt.getTime()), createdBy);
                 carts.add(cart);
             }
@@ -113,6 +155,64 @@ public class CartDAO {
         return carts;
     }
 
+    public List<Cart> getAllCarts2(int userId, int page, int pageSize, String searchQuery, String category, List<Integer> selectedIds) {
+        List<Cart> carts = new ArrayList<>();
+        int offset = (page - 1) * pageSize;
+
+        try {
+            if (category == null) {
+                category = "";
+            }
+            if (searchQuery == null) {
+                searchQuery = "";
+            }
+
+            // Xây dựng điều kiện lọc dựa trên danh sách ID sản phẩm đã chọn
+            String selectedIdsCondition = "";
+            if (selectedIds != null && !selectedIds.isEmpty()) {
+                selectedIdsCondition = "AND c.productDetailId IN ("
+                        + selectedIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
+            }
+
+            // Câu truy vấn với điều kiện lọc theo danh sách ID, phân trang, tìm kiếm và lọc
+            String query = "SELECT c.id, c.userId, c.productDetailId, c.quantity, c.isDeleted, c.createdAt, c.createdBy "
+                    + "FROM `swp-online-shop`.`Cart` c "
+                    + "JOIN `swp-online-shop`.`ProductDetail` pd ON c.ProductDetailID = pd.ID "
+                    + "JOIN `swp-online-shop`.`Product` p ON p.ID = pd.ProductID "
+                    + "JOIN `swp-online-shop`.`Category` cat ON p.CategoryID = cat.ID "
+                    + "WHERE c.userId = ? "
+                    + selectedIdsCondition + " "
+                    + "AND cat.Name LIKE ? "
+                    + "AND p.Name LIKE ? "
+                    + "ORDER BY c.createdAt DESC "
+                    + "LIMIT ?, ?";
+
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setString(2, "%" + category + "%");
+            stmt.setString(3, "%" + searchQuery + "%");
+            stmt.setInt(4, offset);
+            stmt.setInt(5, pageSize);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int productDetailId = rs.getInt("productDetailId");
+                int quantity = rs.getInt("quantity");
+                boolean isDeleted = rs.getBoolean("isDeleted");
+                Timestamp createdAt = rs.getTimestamp("createdAt");
+                int createdBy = rs.getInt("createdBy");
+
+                Cart cart = new Cart(id, userId, productDetailId, quantity, isDeleted, new Date(createdAt.getTime()), createdBy);
+                carts.add(cart);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return carts;
+    }
+
     public int getCartCount(int userId, String searchQuery, String category) {
         int count = 0;
 
@@ -134,6 +234,51 @@ public class CartDAO {
 
             stmt = connection.prepareStatement(query);
             stmt.setInt(1, userId);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int getCartCount(int userId, String searchQuery, String category, List<Integer> selectedIds) {
+        int count = 0;
+
+        try {
+            if (category == null) {
+                category = "";
+            }
+            if (searchQuery == null) {
+                searchQuery = "";
+            }
+
+            // Xây dựng điều kiện lọc cho danh sách ID sản phẩm đã chọn
+            String selectedIdsCondition = "";
+            if (selectedIds != null && !selectedIds.isEmpty()) {
+                selectedIdsCondition = "AND c.productDetailId IN ("
+                        + selectedIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
+            }
+
+            // Câu truy vấn SQL để đếm các giỏ hàng dựa trên userId, category, searchQuery, và selectedIds
+            String query = "SELECT COUNT(*) AS total "
+                    + "FROM `swp-online-shop`.`Cart` c "
+                    + "JOIN `swp-online-shop`.`ProductDetail` pd ON c.ProductDetailID = pd.ID "
+                    + "JOIN `swp-online-shop`.`Product` p ON p.ID = pd.ProductID "
+                    + "JOIN `swp-online-shop`.`Category` cat ON p.CategoryID = cat.ID "
+                    + "WHERE c.userId = ? "
+                    + selectedIdsCondition + " "
+                    + "AND cat.Name LIKE ? "
+                    + "AND p.Name LIKE ?";
+
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, userId);
+            stmt.setString(2, "%" + category + "%");
+            stmt.setString(3, "%" + searchQuery + "%");
 
             rs = stmt.executeQuery();
 
@@ -244,4 +389,30 @@ public class CartDAO {
             System.out.println("clearCart: " + e.getMessage());
         }
     }
+
+    public void clearSelectedCartItems(int userId, List<Integer> selectedProductDetailIds) {
+        if (selectedProductDetailIds == null || selectedProductDetailIds.isEmpty()) {
+            return; // No items to delete
+        }
+
+        String placeholders = selectedProductDetailIds.stream()
+                .map(id -> "?")
+                .collect(Collectors.joining(", "));
+
+        String query = "DELETE FROM `swp-online-shop`.`Cart` WHERE userId = ? AND productDetailId IN (" + placeholders + ")";
+        try {
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, userId);
+
+            // Set each selectedProductDetailId as a parameter in the prepared statement
+            for (int i = 0; i < selectedProductDetailIds.size(); i++) {
+                stmt.setInt(i + 2, selectedProductDetailIds.get(i));
+            }
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("clearSelectedCartItems: " + e.getMessage());
+        }
+    }
+
 }

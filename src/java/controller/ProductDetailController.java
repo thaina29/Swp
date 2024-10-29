@@ -32,11 +32,6 @@ public class ProductDetailController extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = new ProductDAO().getProductById(id);
-        if(request.getParameter("pdid") != null) {
-            int pdid = Integer.parseInt(request.getParameter("pdid"));
-            product.setProductDetail(new ProductDAO().getProductDetailById(pdid));
-        }
-        
         
 
         List<ProductDetail> listDetails = new ProductDAO().getProductDetailsByProductId(id);

@@ -196,9 +196,7 @@
 
                     <!-- Product thumb imgs -->
                     <div class="col-md-2  col-md-pull-5">
-                        <div id="product-imgs">
-
-                        </div>
+                        <img src="${pageContext.request.contextPath}/Image/banner3.png" alt="alt"/>
                     </div>
                     <!-- /Product thumb imgs -->
 
@@ -223,21 +221,10 @@
                                         </c:if></del></h3>
                                 <span class="product-available">In Stock: ${product.productDetail.stock - product.productDetail.hold}</span>
                             </div>
-                            <!--<p>Description</p>-->
+                            <p>${product.description}.</p>
 
                             <div class="product-options">
-<!--                                <label>
-                                    Size
-                                    <select class="input-select">
-                                        <option value="0">X</option>
-                                    </select>
-                                </label>-->
-                                <!--                                <label>
-                                                                    Color
-                                                                    <select class="input-select">
-                                                                        <option value="0">Red</option>
-                                                                    </select>
-                                                                </label>-->
+
                             </div>
 
                             <div class="add-to-cart">
@@ -270,25 +257,15 @@
                         <div id="product-tab">
                             <!-- product tab nav -->
                             <ul class="tab-nav">
-                                <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-                                <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                                <li class="active"><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
                             </ul>
                             <!-- /product tab nav -->
 
                             <!-- product tab content -->
                             <div class="tab-content">
-                                <!-- tab1  -->
-                                <div id="tab1" class="tab-pane fade in active">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p>${product.description}.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /tab1  -->
 
                                 <!-- tab3  -->
-                                <div id="tab3" class="tab-pane fade in">
+                                <div id="tab3" class="tab-pane fade in active">
                                     <div class="row">
                                         <!-- Rating -->
                                         <div class="col-md-3">
@@ -601,14 +578,13 @@
                                             return;
                                         }
                                         if (${product.productDetail.stock - product.productDetail.hold} == 0) {
-                                            alert('Đã hết hàng');
+                                            alert('In the store is out of stock');
                                             return;
                                         }
                                         let quantity = document.getElementById('quantity').value;
                                         fetch('add-cart?id=' + id + '&quantity=' + quantity);
                                         window.alert('Thêm thành công');
                                     }
-
         </script>
     </body>
 </html>

@@ -11,7 +11,7 @@ public class DBContext {
     private final String dbName = "swp-online-shop";
     private final String portNumber = "3306"; // Default MySQL port
     private final String userID = "root"; // Replace with your MySQL username
-    private final String password = "root"; // Replace with your MySQL password
+    private final String password = "1234"; // Replace with your MySQL password
 
     // Method to establish a database connection
     public Connection getConnection() {

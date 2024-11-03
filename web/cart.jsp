@@ -97,6 +97,7 @@
                 <table class="cart-table">
                     <thead>
                         <tr>
+                            <th>Choose</th>
                             <th>Product</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -108,6 +109,9 @@
                         <c:set value="0" var="total"/>
                         <c:forEach var="item" items="${cartItems}">
                             <tr id="item-1">
+                                <td>
+                                    <input type="checkbox" onclick="chooseProduct(${item.productDetailId})">
+                                </td>
                                 <td class="item-details">
                                     <img
                                         src="${item.productDetail.imageURL}"
@@ -183,7 +187,7 @@
                     <div style="display: flex;">
                         <a href="list-product" class="checkout-btn" style="padding: 10px; margin-right: 10px">Buy more</a>
                         <c:if test="${cartItemsFull.size() ne 0}">
-                            <a href="cart-contact" class="checkout-btn" style="padding: 10px;">Check Out</a>
+                            <button onclick="checkout()" class="checkout-btn" style="padding: 10px;">Check Out</button>
                         </c:if>
                     </div>
                 </div>
@@ -293,7 +297,32 @@
         <script src="${pageContext.request.contextPath}/js2/nouislider.min.js"></script>
         <script src="${pageContext.request.contextPath}/js2/jquery.zoom.min.js"></script>
         <script src="${pageContext.request.contextPath}/js2/main.js"></script>
+        <script>
+                                    let choosedProduct = [];
 
+                                    function chooseProduct(id) {
+                                        let index = choosedProduct.indexOf(id);
+                                        if (index > -1) {
+                                            // Nếu sản phẩm đã có trong mảng, xóa nó bằng `splice()`
+                                            choosedProduct.splice(index, 1);
+                                        } else {
+                                            // Nếu sản phẩm chưa có trong mảng, thêm vào
+                                            choosedProduct.push(id);
+                                        }
+                                    }
+                                    function checkout() {
+                                        if (choosedProduct.length > 0) {
+                                            const params = new URLSearchParams();
+
+                                            choosedProduct.forEach(id => {
+                                                params.append('id', id);
+                                            });
+                                            window.location.href = 'cart-contact?'+params.toString();
+                                        } else {
+                                            alert("Choose product to continue");
+                                        }
+                                    }
+        </script>
 
     </body>
 </html>

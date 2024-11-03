@@ -350,7 +350,7 @@ public class UserDAO extends DBContext{
     // Login
     public User loginUser(String email, String password) {
 
-        String query = "SELECT * FROM User WHERE Email = ? AND Password = ?";
+        String query = "SELECT * FROM User WHERE Email = ? AND Password = ? And IsDeleted = 0";
 
         try {
             ps = conn.prepareStatement(query);

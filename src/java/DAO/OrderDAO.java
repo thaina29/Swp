@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +144,8 @@ public class OrderDAO {
                 String phone = rs.getString("Phone");
                 String status = rs.getString("Status");
                 boolean isDeleted = rs.getBoolean("IsDeleted");
-                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+                String _createdAt = rs.getString("CreatedAt");
+                Timestamp createdAt = convert(_createdAt);
                 int createdBy = rs.getInt("CreatedBy");
 
                 String paymentMethod = rs.getString("paymentMethod");
@@ -159,13 +162,24 @@ public class OrderDAO {
         }
         return orders;
     }
+    
+    private Timestamp convert(String time){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        
+        // Chuyển đổi chuỗi sang LocalDateTime
+        LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
+        
+        // Chuyển đổi LocalDateTime sang timestamp (mili giây)
+        return Timestamp.valueOf(localDateTime);
+    }
+
 
     public boolean autoCanceled() {
         try {
             String UPDATE_ORDER_STATUS_SQL
                     = "UPDATE `Order` "
-                    + "SET Status = 'Canceled' "
-                    + "WHERE Status Like 'Not yet' "
+                    + "SET Status = 'Expired' "
+                    + "WHERE Status Like 'Wait for pay' "
                     + "AND CreatedAt < DATE_SUB(NOW(), INTERVAL 1 DAY)";
             // Execute the update statement
             PreparedStatement pstmt = connection.prepareStatement(UPDATE_ORDER_STATUS_SQL);
@@ -226,15 +240,6 @@ public class OrderDAO {
                     + "JOIN `Staff` s on s.ID = o.CreatedBy"
                     + " WHERE o.CreatedAt BETWEEN ? AND ?");
 
-            if (staff.getRole() == 3) {
-                query.append(" AND o.CreatedBy = ");
-                query.append(String.valueOf(staff.getId()));
-            }
-
-            if (staff.getRole() == 6) {
-                query.append(" AND o.Status IN  ");
-                query.append(String.valueOf("('Approved', 'Packaging', 'Delivering', 'Rejected', 'Success', 'Close', 'Canceled', 'Request cancel', 'Failed')"));
-            }
             
             if (idd != null && !idd.isEmpty()) {
                 String condition = " AND o.ID = " + idd;
@@ -308,15 +313,6 @@ public class OrderDAO {
                     + "JOIN `Staff` s on s.ID = o.CreatedBy"
                     + " WHERE o.CreatedAt BETWEEN ? AND ?");
 
-            if (staff.getRole() == 3) {
-                query.append(" AND o.CreatedBy = ");
-                query.append(String.valueOf(staff.getId()));
-            }
-
-            if (staff.getRole() == 6) {
-                query.append(" AND o.Status IN  ");
-                query.append(String.valueOf("('Approved', 'Packaging', 'Delivering', 'Rejected', 'Success', 'Close', 'Canceled', 'Request cancel', 'Failed')"));
-            }
 
             if (salesperson != null && !salesperson.isEmpty()) {
                 String condition = " AND s.fullname LIKE '%" + salesperson + "%' ";
@@ -638,29 +634,6 @@ public class OrderDAO {
         return isSuccess;
     }
 
-    public boolean updateOrderStatus(String status, int orderId, String notes, String saleId) {
-        String UPDATE_ORDER_SQL = "UPDATE `Order`  SET status = ?, notes = ?, createdBy = ? WHERE id = ?";
-        boolean isSuccess = false;
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_SQL)) {
-
-            preparedStatement.setString(1, status);
-            preparedStatement.setString(2, notes);
-            preparedStatement.setString(3, saleId);
-            preparedStatement.setInt(4, orderId);
-
-            int affectedRows = preparedStatement.executeUpdate();
-
-            if (affectedRows > 0) {
-                isSuccess = true;
-            }
-        } catch (SQLException e) {
-            System.out.println("updateOrderStatus: " + e.getMessage());
-        }
-
-        return isSuccess;
-    }
-
     public boolean updateOrderSale(String saleId, int orderId) {
         String UPDATE_ORDER_SQL = "UPDATE `Order`  SET CreatedBy = ? WHERE id = ?";
         boolean isSuccess = false;
@@ -862,6 +835,68 @@ public class OrderDAO {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    public List<Order> shipperViewAllOrder() {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM `Order` WHERE shipperId IS NULL And Status = 'Approved';";
+        try {
+            stmt = connection.prepareStatement(query);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("ID"));
+                order.setUserId(rs.getInt("UserID"));
+                order.setCreatedAt(rs.getDate("CreatedAt"));
+                order.setStatus(rs.getString("Status"));
+                order.setFullname(rs.getString("Fullname"));
+                order.setPhone(rs.getString("Phone"));
+                order.setAddress(rs.getString("Address"));
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public List<Order> shipperViewMyOrder(int id) {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM `Order` where shipperId = ?";
+        try {
+            stmt = connection.prepareStatement(query);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("ID"));
+                order.setUserId(rs.getInt("UserID"));
+                order.setCreatedAt(rs.getDate("CreatedAt"));
+                order.setStatus(rs.getString("Status"));
+                order.setFullname(rs.getString("Fullname"));
+                order.setPhone(rs.getString("Phone"));
+                order.setAddress(rs.getString("Address"));
+
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public void updateShipperOrder(int shipperId, String status, int orderId) {
+        String sql = "Update `Order` Set shipperId = ?, Status = ? WHERE id = ?";
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, shipperId);
+            stmt.setString(2, status);
+            stmt.setInt(3, orderId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

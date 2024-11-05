@@ -706,14 +706,15 @@ public class ProductDAO extends  DBContext{
 
     public boolean updateProduct(Product product) {
         boolean success = false;
-        String query = "UPDATE Product SET Name = ?, Description = ?, IsDeleted = ? "
+        String query = "UPDATE Product SET Name = ?, Description = ?, IsDeleted = ?, CategoryID = ?  "
                 + "WHERE ID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getProductName());
             statement.setString(2, product.getDescription());
             statement.setInt(3, product.getIsDeleted() ? 1 : 0);
-            statement.setInt(4, product.getProductId());
+            statement.setInt(4, product.getCategoryId());
+            statement.setInt(5, product.getProductId());
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -880,56 +881,6 @@ public class ProductDAO extends  DBContext{
         return success;
     }
 
-    public List<Product> homePage() {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "    p.*, \n"
-                + "    pd.*\n"
-                + "FROM \n"
-                + "    product p\n"
-                + "INNER JOIN (\n"
-                + "    SELECT \n"
-                + "        ProductID, \n"
-                + "        MIN(Price) AS MinPrice\n"
-                + "    FROM \n"
-                + "        productDetail\n"
-                + "    WHERE \n"
-                + "        isDeleted = 0\n"
-                + "    GROUP BY \n"
-                + "        ProductID\n"
-                + ") AS MinPrices ON p.ID = MinPrices.ProductID\n"
-                + "INNER JOIN productDetail pd ON p.ID = pd.ProductID AND pd.Price = MinPrices.MinPrice\n"
-                + "WHERE \n"
-                + "    p.isDeleted = 0\n"
-                + "ORDER BY \n"
-                + "    p.CreatedAt DESC LIMIT 12\n";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Product product = new Product();
-                ProductDetail productDetail = new ProductDetail();
-
-                product.setProductId(rs.getInt("ID"));
-                product.setProductName(rs.getString("Name"));
-                product.setDescription(rs.getString("description"));
-
-                productDetail.setPrice(rs.getDouble("price"));
-                productDetail.setImageURL(rs.getString("ImageURL"));
-                productDetail.setDiscount(rs.getInt("discount"));
-
-                product.setProductDetail(productDetail);
-
-                products.add(product);
-            }
-            return products;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return products;
-    }
-
     public List<Product> listProductsPage(String name, String category, double minPrice, double maxPrice, int pageSize, int pageNumber, String arrangePrice, String arrangeName) {
         String sql = "SELECT p.*, pd.*, c.*\n"
                 + "FROM Product p\n"
@@ -941,10 +892,13 @@ public class ProductDAO extends  DBContext{
                 + "        FROM ProductDetail\n"
                 + "        GROUP BY ProductID\n"
                 + "    ) pd2 ON pd1.ProductID = pd2.ProductID AND pd1.Price = pd2.MinPrice\n"
+                + "    WHERE pd1.ID = (SELECT MIN(ID)\n"
+                + "                   FROM ProductDetail\n"
+                + "                   WHERE ProductID = pd1.ProductID AND Price = pd2.MinPrice)\n"
                 + ") pd ON p.ID = pd.ProductID\n"
                 + "JOIN Category c ON p.CategoryID = c.ID\n"
-                + "WHERE pd.Price BETWEEN " + minPrice + " AND " + maxPrice + "\n  "
-                + "  AND p.name like '%" + name + "%' and p.isDeleted = 0 ";
+                + "WHERE pd.Price BETWEEN " + minPrice + " AND " + maxPrice + "\n"
+                + "  AND p.name like '%" + name + "%' and p.isDeleted = 0 and c.isDeleted = 0 ";
 
         if (category != null && category.length() != 0) {
             sql += "  AND c.ID in (" + category + ")";
@@ -964,9 +918,11 @@ public class ProductDAO extends  DBContext{
                 product.setProductId(rs.getInt("ID"));
                 product.setProductName(rs.getString("Name"));
 
+                productDetail.setProductDetailId(rs.getInt("pd.ID"));
                 productDetail.setPrice(rs.getDouble("price"));
                 productDetail.setImageURL(rs.getString("ImageURL"));
                 productDetail.setDiscount(rs.getInt("discount"));
+                productDetail.setStock(rs.getInt("Stock"));
 
                 product.setProductDetail(productDetail);
 
@@ -991,11 +947,16 @@ public class ProductDAO extends  DBContext{
                 + "        SELECT ProductID, MIN(Price) AS MinPrice\n"
                 + "        FROM ProductDetail\n"
                 + "        GROUP BY ProductID\n"
-                + "    ) pd2 ON pd1.ProductID = pd2.ProductID AND pd1.Price = pd2.MinPrice\n"
+                + "    ) pd2 ON pd1.ProductID = pd2.ProductID AND pd1.Price = pd2.MinPrice \n "
+                + "WHERE pd1.ID = (\n"
+                + "    SELECT MIN(ID)\n"
+                + "    FROM ProductDetail\n"
+                + "    WHERE ProductID = pd1.ProductID AND Price = pd2.MinPrice\n"
+                + ")"
                 + ") pd ON p.ID = pd.ProductID\n"
                 + "JOIN Category c ON p.CategoryID = c.ID\n"
                 + "WHERE pd.Price BETWEEN " + minPrice + " AND " + maxPrice + "\n  "
-                + "  AND p.name like '%" + name + "%'  ";
+                + "  AND p.name like '%" + name + "%'  and p.isDeleted = 0 and c.isDeleted = 0";
 
         if (category != null && category.length() != 0) {
             sql += "  AND c.ID in (" + category + ")";
@@ -1014,5 +975,6 @@ public class ProductDAO extends  DBContext{
 
         return products;
     }
+
 
 }

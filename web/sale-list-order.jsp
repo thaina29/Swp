@@ -111,4 +111,35 @@
                 </tbody>
             </table>
             <!-- Pagination Controls -->
-            
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${currentPage - 1}&startDate=${param.startDate}&endDate=${param.endDate}&salesperson=${param.salesperson}&orderStatus=${param.orderStatus}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item ${i == currentPage ? 'active' : ''}">
+                            <a class="page-link" href="?page=${i}&startDate=${param.startDate}&endDate=${param.endDate}&salesperson=${param.salesperson}&orderStatus=${param.orderStatus}">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="?page=${currentPage + 1}&startDate=${param.startDate}&endDate=${param.endDate}&salesperson=${param.salesperson}&orderStatus=${param.orderStatus}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+        <!-- Bootstrap JS and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    </body>
+</html>

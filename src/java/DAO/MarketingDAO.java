@@ -19,6 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+<<<<<<< HEAD
+=======
+import java.util.concurrent.TimeUnit;
+>>>>>>> thaina
 
 public class MarketingDAO {
 
@@ -168,10 +172,22 @@ public class MarketingDAO {
         try {
             Date start = dateFormat.parse(startDate);
             Date end = dateFormat.parse(endDate);
+<<<<<<< HEAD
 
             // Ensure the range is no more than 14 days
             calendar.setTime(start);
             calendar.add(Calendar.DATE, 14);
+=======
+            
+            
+            long differenceInMillis = Math.abs(end.getTime() - start.getTime());
+            
+            int dif = (int) TimeUnit.DAYS.convert(differenceInMillis, TimeUnit.MILLISECONDS);
+
+            // Ensure the range is no more than 14 days
+            calendar.setTime(start);
+            calendar.add(Calendar.DATE, dif);
+>>>>>>> thaina
             Date maxEndDate = calendar.getTime();
             if (end.after(maxEndDate)) {
                 end = maxEndDate;
@@ -198,4 +214,8 @@ public class MarketingDAO {
         return result.toString();
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> thaina

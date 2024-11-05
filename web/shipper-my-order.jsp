@@ -57,32 +57,57 @@
         <!-- Header với logo và nút Đăng xuất -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
+<<<<<<< HEAD
                 <img src="${pageContext.request.contextPath}/Image/logo.png" alt="Logo" style="height: 40px; width: 40px; object-fit: cover; margin-right: 10px;">
             </a>
             <div class="ml-auto">
                 <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger my-2 my-sm-0" ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+=======
+                <img src="${pageContext.request.contextPath}/Image/logo.png" alt="Logo" style="height: 40px; width: 150px; object-fit: cover; margin-right: 10px;">
+            </a>
+            <div class="ml-auto">
+                <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger my-2 my-sm-0" ><i class="fas fa-sign-out-alt"></i> Logout</a>
+>>>>>>> thaina
             </div>
         </nav>
 
         <!-- Thanh điều hướng (thêm vào đây) -->
         <nav class="nav nav-pills nav-fill small-nav py-1">
+<<<<<<< HEAD
             <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-all-order">Tất cả đơn hàng</a>
             <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/shipper?page=view-my-order">Đơn hàng của tôi</a>
             <a class="nav-item nav-link">Chi tiết đơn hàng</a>
+=======
+            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-all-order">View all order</a>
+            <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/shipper?page=view-my-order">View my order</a>
+            <a class="nav-item nav-link">Order detail</a>
+>>>>>>> thaina
         </nav>
 
 
         <div class="container table-container">
+<<<<<<< HEAD
             <h2>Danh Sách Đơn Hàng</h2>
+=======
+            <h2>List orders</h2>
+>>>>>>> thaina
             <div class="table-responsive">
                 <table id="userTable" class="table table-striped table-bordered">
                     <thead class="thead-dark">
                         <tr>
+<<<<<<< HEAD
                             <th>STT</th>
                             <th>Tên Khách Hàng</th>
                             <th>Số Điện Thoại</th>
                             <th>Địa Chỉ</th>
                             <th>Hành động</th>
+=======
+                            <th>ID</th>
+                            <th>Customer name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Action</th>
+>>>>>>> thaina
                         </tr>
                     </thead>
                     <tbody>               
@@ -93,11 +118,19 @@
                                 <td>${order.phone}</td>
                                 <td>${order.address}</td>
                                 <td>
+<<<<<<< HEAD
                                     <button class="btn btn-info btn-sm" onclick="showOrderDetails(${order.id})">Chi Tiết</button>
                                     <c:if test="${order.status.trim() ne 'Shipped'}">
                                         <form action="shipper" method="post" style="display: inline">
                                             <input type="hidden" name="orderId" value="${order.id}"/>
                                             <button class="btn btn-success btn-sm" name="action" value="completeOrder">Đã Giao</button>
+=======
+                                    <button class="btn btn-info btn-sm" onclick="showOrderDetails(${order.id})">Detail</button>
+                                    <c:if test="${order.status.trim() ne 'Shipped'}">
+                                        <form action="shipper" method="post" style="display: inline">
+                                            <input type="hidden" name="orderId" value="${order.id}"/>
+                                            <button class="btn btn-success btn-sm" name="action" value="completeOrder">Shipped</button>
+>>>>>>> thaina
                                         </form>
                                     </c:if>
                                 </td>
@@ -121,6 +154,7 @@
                                                 "searching": true,
                                                 "ordering": true,
                                                 "info": true,
+<<<<<<< HEAD
                                                 "autoWidth": false,
                                                 "language": {
                                                     "emptyTable": "Không có dữ liệu",
@@ -136,6 +170,9 @@
                                                         "previous": "Trước"
                                                     }
                                                 }
+=======
+                                                "autoWidth": false
+>>>>>>> thaina
                                             });
                                         });
         </script>
@@ -145,5 +182,9 @@
             }
         </script>
     </body>
+<<<<<<< HEAD
 </html>
 
+=======
+</html>
+>>>>>>> thaina

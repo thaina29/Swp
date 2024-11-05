@@ -118,7 +118,7 @@ public class OrderDAO {
                 sql += " AND status = ?";
             }
 
-            sql += " AND UserID = ? ORDER BY createdAt LIMIT ?, ?";
+            sql += " AND UserID = ? ORDER BY createdAt DESC LIMIT ?, ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             int index = 1;

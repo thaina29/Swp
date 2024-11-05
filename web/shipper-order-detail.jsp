@@ -57,23 +57,23 @@
         <!-- Header với logo và nút Đăng xuất -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
-                <img src="${pageContext.request.contextPath}/Image/logo.png" alt="Logo" style="height: 40px; width: 40px; object-fit: cover; margin-right: 10px;">
+                <img src="${pageContext.request.contextPath}/Image/logo.png" alt="Logo" style="height: 40px; width: 150px; object-fit: cover; margin-right: 10px;">
             </a>
             <div class="ml-auto">
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger my-2 my-sm-0" ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                <a href="${pageContext.request.contextPath}/logout" class="btn btn-outline-danger my-2 my-sm-0" ><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </nav>
 
         <!-- Thanh điều hướng (thêm vào đây) -->
         <nav class="nav nav-pills nav-fill small-nav py-1">
-            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-all-order">Tất cả đơn hàng</a>
-            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-my-order">Đơn hàng của tôi</a>
-            <a class="nav-item nav-link active">Chi tiết đơn hàng</a>
+            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-all-order">View all order</a>
+            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/shipper?page=view-my-order">View my order</a>
+            <a class="nav-item nav-link active">Order detail</a>
         </nav>
 
 
         <div class="container table-container">
-            <h2>Đơn hàng</h2>
+            <h2>Order</h2>
             <div class="row">
                 <div class="col-sm-6">
                     <div style="width: 100%">
@@ -138,7 +138,7 @@
                 </table>
             </div>
             <div>
-                <strong>Tổng đơn hàng:</strong>${String.format("%.2f", Double.parseDouble(order.totalCost + totalToppingProducts))}
+                <strong>Total:</strong>${String.format("%.2f", Double.parseDouble(order.totalCost + totalToppingProducts))}
             </div>
         </div>
 
@@ -150,4 +150,3 @@
 
     </body>
 </html>
-

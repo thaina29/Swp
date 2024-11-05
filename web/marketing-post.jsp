@@ -143,7 +143,10 @@
                             <td>${post.id}</td>
                             <td><img src="${post.imgURL}" alt="alt" width="100px" height="100px"/></td>
                             <td>${post.title}</td>
+<<<<<<< HEAD
                             <!--<td>${fn:substring(post.content, 0, 50)}...</td>-->
+=======
+>>>>>>> thinhqt
                             <td>
                                 ${post.getCategoryName()}
                             </td>

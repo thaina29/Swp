@@ -74,7 +74,26 @@ public class SaleOrderController extends HttpServlet {
         String endDate = request.getParameter("endDate");
         String salesperson = request.getParameter("salesperson");
         String orderStatus = request.getParameter("orderStatus");
+
+        int currentPage = 1;
+        int ordersPerPage = 10;
+
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        }
         
+        if(startDate == null || startDate.isEmpty()) {
+            startDate = "1990-01-01";
+        }
+        
+        if(endDate == null || endDate.isEmpty()) {
+            endDate = "9999-01-01";
+        }
+        
+        Staff staff = (Staff) request.getSession().getAttribute("staff");
+        
+        List<Order> orders = orderDAO.getOrdersByPage(currentPage, ordersPerPage, startDate, endDate, salesperson, orderStatus, staff, id, customerName);
+        List<Category> categories = new PostDAO().getUniqueCategories();
         int totalOrders = orderDAO.getTotalOrderCount(startDate, endDate, salesperson, orderStatus, staff, id, customerName);
         int totalPages = (int) Math.ceil((double) totalOrders / ordersPerPage);
         

@@ -48,7 +48,12 @@
                 </div>
             </div>
 
-            
+            <div class="row">
+                <div class="chart-container col-6">
+                    <h2>Customers Statistics</h2>
+                    <canvas id="customersChart"></canvas>
+                </div>
+            </div>
 
         </div>
 

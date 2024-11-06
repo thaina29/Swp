@@ -47,7 +47,34 @@
             <p>Sale name: ${order.sale.fullname}</p>
 
             <!-- Ordered Products -->
-            
+            <h3>Ordered Products</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Thumbnail</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="product" items="${orderedProducts}">
+                        <tr>
+                            <td><img src="${product.imageURL}" alt="..." width="100" height="100"></td>
+                            <td>${product.getProductName()}</td>
+                            <td>${product.getCateogryName()}</td>
+                            <td>$${product.discount != null &&  product.discount != 0 ? (product.price * (100-product.discount)/100) : product.price}</td>
+                            <td>${product.buyQuantity}</td>
+                            <td>$${product.discount != null &&  product.discount != 0 ? (product.price * (100-product.discount)/100)*(product.buyQuantity) : product.price*product.buyQuantity}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <div>
+                <strong>Total Order Price:</strong> $${order.totalCost}
+            </div>
         </div>
         <!-- Bootstrap JS and jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

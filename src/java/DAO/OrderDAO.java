@@ -15,8 +15,17 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.sql.Statement;
+<<<<<<< HEAD
+<<<<<<< HEAD
+// Đây là phần mã hiện tại trên máy bạn
+=======
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+>>>>>>> thinhqt
+=======
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,8 +153,17 @@ public class OrderDAO {
                 String phone = rs.getString("Phone");
                 String status = rs.getString("Status");
                 boolean isDeleted = rs.getBoolean("IsDeleted");
+<<<<<<< HEAD
+<<<<<<< HEAD
+                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+=======
                 String _createdAt = rs.getString("CreatedAt");
                 Timestamp createdAt = convert(_createdAt);
+>>>>>>> thinhqt
+=======
+                String _createdAt = rs.getString("CreatedAt");
+                Timestamp createdAt = convert(_createdAt);
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
                 int createdBy = rs.getInt("CreatedBy");
 
                 String paymentMethod = rs.getString("paymentMethod");
@@ -162,6 +180,11 @@ public class OrderDAO {
         }
         return orders;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
     
     private Timestamp convert(String time){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -173,13 +196,27 @@ public class OrderDAO {
         return Timestamp.valueOf(localDateTime);
     }
 
+<<<<<<< HEAD
+>>>>>>> thinhqt
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
 
     public boolean autoCanceled() {
         try {
             String UPDATE_ORDER_STATUS_SQL
                     = "UPDATE `Order` "
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    + "SET Status = 'Canceled' "
+                    + "WHERE Status Like 'Not yet' "
+=======
                     + "SET Status = 'Expired' "
                     + "WHERE Status Like 'Wait for pay' "
+>>>>>>> thinhqt
+=======
+                    + "SET Status = 'Expired' "
+                    + "WHERE Status Like 'Wait for pay' "
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
                     + "AND CreatedAt < DATE_SUB(NOW(), INTERVAL 1 DAY)";
             // Execute the update statement
             PreparedStatement pstmt = connection.prepareStatement(UPDATE_ORDER_STATUS_SQL);
@@ -240,6 +277,21 @@ public class OrderDAO {
                     + "JOIN `Staff` s on s.ID = o.CreatedBy"
                     + " WHERE o.CreatedAt BETWEEN ? AND ?");
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+            if (staff.getRole() == 3) {
+                query.append(" AND o.CreatedBy = ");
+                query.append(String.valueOf(staff.getId()));
+            }
+
+            if (staff.getRole() == 6) {
+                query.append(" AND o.Status IN  ");
+                query.append(String.valueOf("('Approved', 'Packaging', 'Delivering', 'Rejected', 'Success', 'Close', 'Canceled', 'Request cancel', 'Failed')"));
+            }
+=======
+>>>>>>> thinhqt
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
             
             if (idd != null && !idd.isEmpty()) {
                 String condition = " AND o.ID = " + idd;
@@ -313,6 +365,21 @@ public class OrderDAO {
                     + "JOIN `Staff` s on s.ID = o.CreatedBy"
                     + " WHERE o.CreatedAt BETWEEN ? AND ?");
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+            if (staff.getRole() == 3) {
+                query.append(" AND o.CreatedBy = ");
+                query.append(String.valueOf(staff.getId()));
+            }
+
+            if (staff.getRole() == 6) {
+                query.append(" AND o.Status IN  ");
+                query.append(String.valueOf("('Approved', 'Packaging', 'Delivering', 'Rejected', 'Success', 'Close', 'Canceled', 'Request cancel', 'Failed')"));
+            }
+=======
+>>>>>>> thinhqt
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
 
             if (salesperson != null && !salesperson.isEmpty()) {
                 String condition = " AND s.fullname LIKE '%" + salesperson + "%' ";
@@ -634,6 +701,35 @@ public class OrderDAO {
         return isSuccess;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    public boolean updateOrderStatus(String status, int orderId, String notes, String saleId) {
+        String UPDATE_ORDER_SQL = "UPDATE `Order`  SET status = ?, notes = ?, createdBy = ? WHERE id = ?";
+        boolean isSuccess = false;
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_SQL)) {
+
+            preparedStatement.setString(1, status);
+            preparedStatement.setString(2, notes);
+            preparedStatement.setString(3, saleId);
+            preparedStatement.setInt(4, orderId);
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows > 0) {
+                isSuccess = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("updateOrderStatus: " + e.getMessage());
+        }
+
+        return isSuccess;
+    }
+
+=======
+>>>>>>> thinhqt
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
     public boolean updateOrderSale(String saleId, int orderId) {
         String UPDATE_ORDER_SQL = "UPDATE `Order`  SET CreatedBy = ? WHERE id = ?";
         boolean isSuccess = false;
@@ -837,6 +933,12 @@ public class OrderDAO {
         return orders;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+}
+=======
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0
     public List<Order> shipperViewAllOrder() {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM `Order` WHERE shipperId IS NULL And Status = 'Approved';";
@@ -900,3 +1002,7 @@ public class OrderDAO {
     }
 
 }
+<<<<<<< HEAD
+>>>>>>> thinhqt
+=======
+>>>>>>> 601dc65f59763e0b571aaee1689b712c045211d0

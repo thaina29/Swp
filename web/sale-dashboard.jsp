@@ -37,7 +37,46 @@
                 </div>
             </div>
 
-            
+            <div class="row d-flex" style="justify-content: center">
+                <div class="col-md-8">
+                    <form method="GET" class="mb-4">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="start_date">Start Date:</label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" required value="${startDate}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="end_date">End Date:</label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" required value="${endDate}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Trend of order counts -->
+            <div class="row">
+                <div class="col-md-12 chart-container">
+                    <h2>Order Trend</h2>
+                    <canvas id="orderTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Include Chart.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- Bootstrap JS and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Chart data and configurations -->
+        
 
     </body>
 </html>

@@ -68,6 +68,92 @@ public class MartketingCustomerController extends HttpServlet {
         request.getRequestDispatcher("../marketing-customer.jsp").forward(request, response);
     }
 
-   
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Determine action (add or update)
+        String action = request.getParameter("action");
+        if (action != null) {
+            switch (action) {
+                case "add":
+                    addUser(request, response);
+                    break;
+                case "update":
+                    updateUser(request, response);
+                    break;
+            }
+        } else {
+            // Handle missing action parameter
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
+
+    private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve user data from request parameters
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+
+        boolean success = false;
+
+        User user = userDAO.getUserByEmail(email);
+
+        if (user == null) {
+            // Register the user
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setPassword(password);
+            newUser.setFullname(fullName);
+            newUser.setGender(gender ? "Male" : "Female");
+            newUser.setAddress(address);
+            newUser.setPhone(phone);
+
+            success = userDAO.registerUser(newUser);
+
+            EmailService.sendEmail(email, "Account created", "Your password: " + password);
+        }
+
+        if (success) {
+            // Redirect to user list page after successful addition
+            response.sendRedirect("user?success");
+        } else {
+            response.sendRedirect("user?fail");
+        }
+    }
+
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve user data from request parameters
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        
+        Staff staff = SessionUserInfo.getStaffSession(request);
+
+        // Create a User object with the updated data
+        User user = new UserDAO().getUserById(userId);
+        user.setId(userId);
+        user.setFullname(fullName);
+        user.setEmail(email);
+        user.setGender(gender ? "Male" : "Female");
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.setIsDeleted(status);
+        user.setChangeHistory((user.getChangeHistory() == null ? "" : user.getChangeHistory()) + user.toString(staff));
+
+        // Update the user
+        boolean success = userDAO.updateUser(user);
+        if (success) {
+            // Redirect to user list page after successful update
+            response.sendRedirect("user?success");
+        } else {
+            // Handle update failure
+            response.sendRedirect("user?fail");
+        }
+    }
 
 }

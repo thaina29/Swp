@@ -76,7 +76,93 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         <!-- Chart data and configurations -->
-        
+        <script>
+            var newOrdersCtx = document.getElementById('newOrdersChart').getContext('2d');
+            var newOrdersChart = new Chart(newOrdersCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Success', 'Cancelled', 'Pending'], // Update labels if needed
+                    datasets: [{
+                            label: 'New Orders',
+                            data: [${order_success}, ${order_cancel}, ${order_pending}], // Use dynamic data
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 206, 86, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+            // Revenues Chart
+            var revenuesCtx = document.getElementById('revenuesChart').getContext('2d');
+            var revenuesChart = new Chart(revenuesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Previous year', 'This year'],
+                    datasets: [{
+                            label: 'Revenues',
+                            data: [${total_prev}, ${total_now}], // Use dynamic data
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+
+
+            var orderTrendCtx = document.getElementById('orderTrendChart').getContext('2d');
+            var norderTrendChart = new Chart(orderTrendCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Success', 'Cancelled', 'Pending'], // Update labels if needed
+                    datasets: [{
+                            label: 'Trend Orders',
+                            data: [${order_success_filter}, ${order_cancel_filter}, ${order_pending_filter}], // Use filtered data
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 206, 86, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+        </script>
 
     </body>
 </html>

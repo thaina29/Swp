@@ -185,64 +185,82 @@
                 </div>
             </div>
 
-           
+            <!-- User Info Modal -->
+            <div class="modal fade" id="userInfoModal_${user.id}" tabindex="-1" role="dialog" aria-labelledby="userInfoModalLabel_${user.id}" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="userInfoModalLabel_${user.id}">User Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex flex-column align-items-center">
+                                <img src="${user.avatar}" class="img-thumbnail mb-3" alt="Profile Image" style="width: 150px; height: 150px;">
+                            </div>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>${user.id}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <td>${user.fullname}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>${user.getEmail()}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>${user.gender}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>${user.getAddress()}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td>${user.getPhone()}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>${user.isDeleted ? 'Inactive' : 'Active'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <strong>History Change</strong>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Update at</th>
+                                            <th>Email</th>
+                                            <th>Full Name</th>
+                                            <th>Gender</th>
+                                            <th>Address</th>
+                                            <th>Phone</th>
+                                            <th>Update by</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${user.changeHistory eq null ? '<tr><td>No data</td></tr>' : user.changeHistory}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
         </c:forEach>
 
         <!-- Add User Modal -->
-        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
-            <!-- Modal Content -->
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <!-- Modal Body -->
-                    <div class="modal-body">
-                        <!-- Add User Form -->
-                        <form action="user" method="post">
-                            <!-- Hidden Field -->
-                            <input type="hidden" name="action" value="add">
-                            <!-- Form Inputs -->
-                            <div class="form-group">
-                                <label for="fullName">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select class="form-control" id="gender" name="gender">
-                                    <option value="true">Male</option>
-                                    <option value="false">Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address     " name="address">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add User</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
 
         <!-- Bootstrap JS and jQuery -->

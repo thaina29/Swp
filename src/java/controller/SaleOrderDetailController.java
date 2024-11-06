@@ -72,7 +72,11 @@ public class SaleOrderDetailController extends HttpServlet {
         Order order = orderDAO.getOrderById(orderId);
         List<ProductDetail> orderedProducts = orderDAO.getOrderedProductsByOrderId(orderId);
         List<Staff> sales = orderDAO.getAllSale();
-        
+        request.setAttribute("order", order);
+        request.setAttribute("sales", sales);
+        request.setAttribute("orderedProducts", orderedProducts);
+        request.setAttribute("isSuccess", request.getParameter("isSuccess"));
+        request.getRequestDispatcher("/sale-order-detail.jsp").forward(request, response);
     } 
 
     /** 

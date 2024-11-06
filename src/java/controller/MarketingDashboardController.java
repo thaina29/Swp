@@ -40,10 +40,10 @@ public class MarketingDashboardController extends HttpServlet {
             Date today = new Date();
             endDate = sdf.format(today);
 
-            // Calculate the date 14 days ago
+            // Calculate the date 7 days ago
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(today);
-            calendar.add(Calendar.DAY_OF_YEAR, -14);
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
             Date sevenDaysAgo = calendar.getTime();
             startDate = sdf.format(sevenDaysAgo);
         }

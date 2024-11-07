@@ -231,7 +231,57 @@
                 }
             });
             
-            
+            var orderTrendCtx = document.getElementById('orderTrendChart').getContext('2d');
+            var norderTrendChart = new Chart(orderTrendCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Success', 'Cancelled', 'Pending'], // Update labels if needed
+                    datasets: [{
+                            label: 'Trend Orders',
+                            data: [${order_success_filter}, ${order_cancel_filter}, ${order_pending_filter}], // Use filtered data
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 206, 86, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+            // Total Cost by Category Chart
+            var totalCostByCategoryCtx = document.getElementById('totalCostByCategoryChart').getContext('2d');
+            var totalCostByCategoryChart = new Chart(totalCostByCategoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: [${cateString}], // Use dynamic data for category names
+                    datasets: [{
+                            label: 'Total Cost $',
+                            data: [${cateCost}], // Use dynamic data for total costs
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
 
 
         </script>

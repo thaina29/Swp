@@ -167,6 +167,70 @@
                 }
             });
 
+            // Revenues Chart
+            var revenuesCtx = document.getElementById('revenuesChart').getContext('2d');
+            var revenuesChart = new Chart(revenuesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Previous year', 'This year', 'Total'],
+                    datasets: [{
+                            label: 'Revenues $',
+                            data: [${total_prev}, ${total_now}, ${total_all}], // Use dynamic data
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+
+            // Customers Chart (Column Chart)
+            var customersCtx = document.getElementById('customersChart').getContext('2d');
+            var customersChart = new Chart(customersCtx, {
+                type: 'bar', // Change chart type to 'bar'
+                data: {
+                    labels: ['User', 'Order'], // Add 'Feedback' label
+                    datasets: [{
+                            label: 'System',
+                            data: [${user_count}, ${order_success + order_pending}], // Use dynamic data
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                    }
+                }
+            });
+            
             
 
 

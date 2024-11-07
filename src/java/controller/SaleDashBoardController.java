@@ -78,7 +78,32 @@ public class SaleDashBoardController extends HttpServlet {
         request.setAttribute("order_cancel", orderCancel);
         request.setAttribute("order_pending", orderPending);
 
+        int orderSuccessFilter = 0;
+        int orderCancelFilter = 0;
+        int orderPendingFilter = 0;
         
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Submitted", startDate, endDate, sale).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Approved", startDate, endDate, sale).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Delivering", startDate, endDate, sale).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Wait for pay", startDate, endDate, sale).size();
+        orderCancelFilter += dao.getOrdersByStatusAndDateRange("Expired", startDate, endDate, sale).size();
+        orderSuccessFilter += dao.getOrdersByStatusAndDateRange("Shipped", startDate, endDate, sale).size();
+        
+        request.setAttribute("order_success_filter", orderSuccessFilter);
+        request.setAttribute("order_cancel_filter", orderCancelFilter);
+        request.setAttribute("order_pending_filter", orderPendingFilter);
+
+        // Retrieve total cost of orders from previous years
+        request.setAttribute("total_now", new SaleDAO().getTotalCostOfPreviousNYears(0));
+        request.setAttribute("total_prev", new SaleDAO().getTotalCostOfPreviousNYears(1));
+
+        // Set start and end dates
+        request.setAttribute("startDate", startDate.toString().substring(0, 10));
+        request.setAttribute("endDate", endDate.toString().substring(0, 10));
+        request.setAttribute("sale", sale);
+
+
+        request.getRequestDispatcher("../sale-dashboard.jsp").forward(request, response);
     }
 
     /**

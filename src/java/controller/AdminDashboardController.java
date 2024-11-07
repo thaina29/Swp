@@ -58,7 +58,41 @@ public class AdminDashboardController extends HttpServlet {
         request.setAttribute("order_cancel", orderCancel);
         request.setAttribute("order_pending", orderPending);
 
+        int orderSuccessFilter = 0;
+        int orderCancelFilter = 0;
+        int orderPendingFilter = 0;
        
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Submitted", startDate, endDate).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Approved", startDate, endDate).size();
+        orderSuccessFilter += dao.getOrdersByStatusAndDateRange("Shipped", startDate, endDate).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Delivering", startDate, endDate).size();
+        orderPendingFilter += dao.getOrdersByStatusAndDateRange("Wait for pay", startDate, endDate).size();
+        orderCancelFilter += dao.getOrdersByStatusAndDateRange("Expired", startDate, endDate).size();
+        
+        request.setAttribute("order_success_filter", orderSuccessFilter);
+        request.setAttribute("order_cancel_filter", orderCancelFilter);
+        request.setAttribute("order_pending_filter", orderPendingFilter);
+
+        // Retrieve total cost of orders from previous years
+        request.setAttribute("total_now", new AdminDAO().getTotalCostOfPreviousNYears(0));
+        request.setAttribute("total_prev", new AdminDAO().getTotalCostOfPreviousNYears(1));
+        request.setAttribute("total_all", new AdminDAO().getTotalCostOfPreviousNYears(-1));
+
+        // Retrieve the count of users
+        request.setAttribute("user_count", new UserDAO().getAllUsers().size());
+        request.setAttribute("user_last", dao.getLastOrderCustomer());
+
+        // Set start and end dates
+        request.setAttribute("startDate", startDate.toString().substring(0, 10));
+        request.setAttribute("endDate", endDate.toString().substring(0, 10));
+        
+        request.setAttribute("cateString", cateString);
+        request.setAttribute("cateCost", cateCost);
+        
+        request.setAttribute("categoryList", category);
+
+        // Forward the request to the JSP
+        request.getRequestDispatcher("../admin-dashboard.jsp").forward(request, response);
 
     }
 

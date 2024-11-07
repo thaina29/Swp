@@ -77,7 +77,61 @@
                 </div>
             </div>
 
-            
+            <!-- Customers -->
+            <div class="row mb-4 mt-4">
+                <div class="col-md-6 p-3">
+                    <h3>System</h3>
+                    <div class="row d-flex" style="justify-content: center">
+                        <div class="col-8 mb-4">
+                            <div class="category-item">
+                                <p><strong>Last order customer: </strong> ${user_last.fullname}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="customersChart"></canvas>
+                    </div>
+                </div>
+                <!-- Feedbacks -->
+                <div class="col-md-6 p-3">
+                    
+                </div>
+            </div>
+
+            <div class="row d-flex" style="justify-content: center">
+                <div class="col-md-8">
+                    <form action="${pageContext.request.contextPath}/admin/dashboard" method="GET" class="mb-4">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="start_date">Start Date:</label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" required value="${startDate}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="end_date">End Date:</label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" required value="${endDate}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Trend of order counts -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Order Trend</h2>
+                    <div class="chart-container">
+                        <canvas id="orderTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        
 
     </body>
 </html>

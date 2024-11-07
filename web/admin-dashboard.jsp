@@ -131,7 +131,46 @@
 
 
 
-        
+        <!-- Include Chart.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- Bootstrap JS and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Chart data and configurations -->
+        <script>
+            var newOrdersCtx = document.getElementById('newOrdersChart').getContext('2d');
+            var newOrdersChart = new Chart(newOrdersCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Success', 'Cancelled', 'Pending'], // Update labels if needed
+                    datasets: [{
+                            label: 'New Orders',
+                            data: [${order_success}, ${order_cancel}, ${order_pending}], // Use dynamic data
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 206, 86, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+            
+
+
+        </script>
 
     </body>
 </html>
